@@ -58,16 +58,16 @@ export const LaunchCreator = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-2xl bg-card border-border shadow-2xl">
+      <Card className="w-full max-w-2xl bg-gray-800 border-gray-700 shadow-2xl">
         <CardHeader className="flex flex-row items-center justify-between pb-4">
-          <CardTitle className="text-2xl font-bold text-white">
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
             Create Launch Event
           </CardTitle>
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="text-muted-foreground hover:text-white"
+            className="text-gray-400 hover:text-white"
           >
             <X className="h-5 w-5" />
           </Button>
@@ -87,7 +87,7 @@ export const LaunchCreator = ({
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, title: e.target.value }))
                 }
-                className="bg-background/50 border-border"
+                className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                 required
               />
             </div>
@@ -108,7 +108,7 @@ export const LaunchCreator = ({
                   }))
                 }
                 rows={3}
-                className="bg-background/50 border-border"
+                className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
               />
             </div>
 
@@ -119,7 +119,7 @@ export const LaunchCreator = ({
                   Game
                 </Label>
                 <div className="relative">
-                  <Gamepad2 className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Gamepad2 className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     id="game"
                     placeholder="e.g., Just Chatting"
@@ -127,7 +127,7 @@ export const LaunchCreator = ({
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, game: e.target.value }))
                     }
-                    className="pl-10 bg-background/50 border-border"
+                    className="pl-10 bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                   />
                 </div>
               </div>
@@ -142,7 +142,7 @@ export const LaunchCreator = ({
                       platform: e.target.value,
                     }))
                   }
-                  className="w-full h-9 px-3 py-1 bg-background/50 border border-border rounded-md text-sm"
+                  className="w-full h-9 px-3 py-1 bg-gray-700 border border-gray-600 rounded-md text-sm text-white"
                 >
                   <option value="twitch">Twitch</option>
                   <option value="youtube">YouTube</option>
@@ -158,7 +158,7 @@ export const LaunchCreator = ({
                   Scheduled Date & Time *
                 </Label>
                 <div className="relative">
-                  <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Calendar className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     id="scheduled_date"
                     type="datetime-local"
@@ -169,7 +169,7 @@ export const LaunchCreator = ({
                         scheduled_date: e.target.value,
                       }))
                     }
-                    className="pl-10 bg-background/50 border-border"
+                    className="pl-10 bg-gray-700 border-gray-600 text-white"
                     required
                   />
                 </div>
@@ -180,7 +180,7 @@ export const LaunchCreator = ({
                   Max Participants
                 </Label>
                 <div className="relative">
-                  <Users className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Users className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                   <Input
                     id="max_participants"
                     type="number"
@@ -193,7 +193,7 @@ export const LaunchCreator = ({
                         max_participants: parseInt(e.target.value) || 50,
                       }))
                     }
-                    className="pl-10 bg-background/50 border-border"
+                    className="pl-10 bg-gray-700 border-gray-600 text-white"
                   />
                 </div>
               </div>
@@ -207,7 +207,7 @@ export const LaunchCreator = ({
                   <img
                     src={thumbnailPreview}
                     alt="Thumbnail preview"
-                    className="w-full h-48 object-cover rounded-lg border border-border"
+                    className="w-full h-48 object-cover rounded-lg border border-gray-600"
                   />
                   <Button
                     type="button"
@@ -220,12 +220,12 @@ export const LaunchCreator = ({
                   </Button>
                 </div>
               ) : (
-                <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
-                  <Upload className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
-                  <p className="text-sm text-muted-foreground mb-2">
+                <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-pink-500/50 transition-colors">
+                  <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                  <p className="text-sm text-gray-400 mb-2">
                     Upload a thumbnail for your event
                   </p>
-                  <p className="text-xs text-muted-foreground mb-4">
+                  <p className="text-xs text-gray-500 mb-4">
                     PNG, JPG up to 5MB
                   </p>
                   <Input
@@ -237,7 +237,7 @@ export const LaunchCreator = ({
                   />
                   <Label
                     htmlFor="thumbnail-upload"
-                    className="cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md text-sm font-medium inline-block"
+                    className="cursor-pointer bg-pink-500 text-white hover:bg-pink-600 px-4 py-2 rounded-md text-sm font-medium inline-block"
                   >
                     Choose File
                   </Label>
@@ -251,7 +251,7 @@ export const LaunchCreator = ({
                 type="button"
                 variant="outline"
                 onClick={onClose}
-                className="flex-1"
+                className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
               >
                 Cancel
               </Button>
@@ -260,7 +260,7 @@ export const LaunchCreator = ({
                 disabled={
                   loading || !formData.title || !formData.scheduled_date
                 }
-                className="flex-1 bg-gradient-to-r from-primary to-secondary"
+                className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white"
               >
                 {loading ? "Creating..." : "Create Launch Event"}
               </Button>
