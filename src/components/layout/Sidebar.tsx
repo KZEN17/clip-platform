@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 import {
   BookOpen,
   Calendar,
-  Gift,
   Home,
   Menu,
   MessageCircle,
   TrendingUp,
+  Trophy,
   User,
   X,
 } from "lucide-react";
@@ -28,23 +28,81 @@ export const Sidebar = ({ currentUser }: SidebarProps) => {
   const pathname = usePathname();
 
   const navigationItems = [
-    { name: "Home", href: "/", icon: Home },
-    { name: "Launch Calendar", href: "/calendar", icon: Calendar },
-    { name: "Rewards", href: "/rewards", icon: Gift },
-    { name: "Raid Chat", href: "/chat", icon: MessageCircle },
-    { name: "Leaderboards", href: "/leaderboards", icon: TrendingUp },
-    { name: "Guide", href: "/guide", icon: BookOpen },
-    { name: "Profile", href: "/profile", icon: User },
+    {
+      name: "Home",
+      href: "/",
+      icon: Home,
+      color: "text-pink-500",
+      hoverColor: "hover:bg-pink-500/10 hover:text-pink-400",
+      activeColor: "text-pink-500 bg-pink-500/10",
+      borderColor: "bg-pink-500",
+    },
+    {
+      name: "Launch Calendar",
+      href: "/calendar",
+      icon: Calendar,
+      color: "text-purple-400",
+      hoverColor: "hover:bg-purple-400/10 hover:text-purple-300",
+      activeColor: "text-purple-400 bg-purple-400/10",
+      borderColor: "bg-purple-400",
+    },
+    {
+      name: "Rewards",
+      href: "/rewards",
+      icon: Trophy,
+      color: "text-cyan-400",
+      hoverColor: "hover:bg-cyan-400/10 hover:text-cyan-300",
+      activeColor: "text-cyan-400 bg-cyan-400/10",
+      borderColor: "bg-cyan-400",
+    },
+    {
+      name: "Raid Chat",
+      href: "/chat",
+      icon: MessageCircle,
+      color: "text-green-400",
+      hoverColor: "hover:bg-green-400/10 hover:text-green-300",
+      activeColor: "text-green-400 bg-green-400/10",
+      borderColor: "bg-green-400",
+    },
+    {
+      name: "Leaderboards",
+      href: "/leaderboards",
+      icon: TrendingUp,
+      color: "text-yellow-400",
+      hoverColor: "hover:bg-yellow-400/10 hover:text-yellow-300",
+      activeColor: "text-yellow-400 bg-yellow-400/10",
+      borderColor: "bg-yellow-400",
+    },
+    {
+      name: "Guide",
+      href: "/guide",
+      icon: BookOpen,
+      color: "text-orange-400",
+      hoverColor: "hover:bg-orange-400/10 hover:text-orange-300",
+      activeColor: "text-orange-400 bg-orange-400/10",
+      borderColor: "bg-orange-400",
+    },
+    {
+      name: "Profile",
+      href: "/profile",
+      icon: User,
+      color: "text-indigo-400",
+      hoverColor: "hover:bg-indigo-400/10 hover:text-indigo-300",
+      activeColor: "text-indigo-400 bg-indigo-400/10",
+      borderColor: "bg-indigo-400",
+    },
   ];
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-background border-r border-border">
+    <div className="flex flex-col h-full bg-gray-900 border-r border-gray-800">
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 border-b border-border">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-success to-primary flex items-center justify-center">
+      <div className="flex items-center gap-3 p-4 border-b border-gray-800">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 flex items-center justify-center">
           <span className="text-white font-bold text-sm">C</span>
         </div>
-        <span className="font-bold text-lg text-white">ClipStream</span>
+        <span className="font-bold text-lg bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
+          ClipStream
+        </span>
       </div>
 
       {/* Navigation */}
@@ -58,8 +116,7 @@ export const Sidebar = ({ currentUser }: SidebarProps) => {
               <div key={item.name} className="relative">
                 {isActive && (
                   <div
-                    className="absolute left-0 top-0 bottom-0 w-1 bg-success rounded-r-full z-10"
-                    style={{ backgroundColor: "#3CFF88" }}
+                    className={`absolute left-0 top-0 bottom-0 w-1 ${item.borderColor} rounded-r-full z-10`}
                   />
                 )}
                 <a
@@ -67,10 +124,9 @@ export const Sidebar = ({ currentUser }: SidebarProps) => {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 group relative",
                     isActive
-                      ? "text-success bg-success/10"
-                      : "text-muted-foreground hover:text-white hover:bg-white/5 hover:scale-105"
+                      ? item.activeColor
+                      : `text-gray-400 ${item.hoverColor} hover:scale-105`
                   )}
-                  style={isActive ? { color: "#3CFF88" } : {}}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0 group-hover:scale-110 transition-transform" />
                   <span className="group-hover:translate-x-1 transition-transform">
@@ -85,9 +141,9 @@ export const Sidebar = ({ currentUser }: SidebarProps) => {
 
       {/* User Profile */}
       {currentUser && (
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-gray-800">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center">
               <span className="text-white font-medium text-sm">
                 {currentUser.name.charAt(0).toUpperCase()}
               </span>
@@ -97,8 +153,8 @@ export const Sidebar = ({ currentUser }: SidebarProps) => {
                 {currentUser.name}
               </p>
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full bg-success"></div>
-                <span className="text-xs text-muted-foreground">Online</span>
+                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                <span className="text-xs text-gray-400">Online</span>
               </div>
             </div>
           </div>
@@ -113,13 +169,13 @@ export const Sidebar = ({ currentUser }: SidebarProps) => {
       <Button
         variant="ghost"
         size="icon"
-        className="fixed top-4 left-4 z-50 lg:hidden bg-background/80 backdrop-blur-sm border border-border"
+        className="fixed top-4 left-4 z-50 lg:hidden bg-gray-900/80 backdrop-blur-sm border border-gray-800"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
         {isMobileOpen ? (
-          <X className="h-5 w-5" />
+          <X className="h-5 w-5 text-white" />
         ) : (
-          <Menu className="h-5 w-5" />
+          <Menu className="h-5 w-5 text-white" />
         )}
       </Button>
 
@@ -142,7 +198,7 @@ export const Sidebar = ({ currentUser }: SidebarProps) => {
       </div>
 
       {/* Desktop Sidebar */}
-      <div className="fixed left-0 top-0 z-30 h-full w-64 bg-background border-r border-border hidden lg:block">
+      <div className="fixed left-0 top-0 z-30 h-full w-64 bg-gray-900 border-r border-gray-800 hidden lg:block">
         <SidebarContent />
       </div>
     </>
