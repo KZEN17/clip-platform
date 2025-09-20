@@ -1,6 +1,8 @@
+// src/components/layout/Sidebar.tsx
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 import { cn } from "@/lib/utils";
 import {
   BookOpen,
@@ -16,16 +18,10 @@ import {
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-interface SidebarProps {
-  currentUser?: {
-    name: string;
-    avatar?: string;
-  };
-}
-
-export const Sidebar = ({ currentUser }: SidebarProps) => {
+export const Sidebar = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
+  const { user } = useAuth();
 
   const navigationItems = [
     {
@@ -139,18 +135,19 @@ export const Sidebar = ({ currentUser }: SidebarProps) => {
         </div>
       </nav>
 
-      {/* User Profile */}
-      {currentUser && (
-        <div className="p-4 border-t border-gray-800">
+      {/* User Profile or Guest Message */}
+      <div className="p-4 border-t border-gray-800">
+        {user ? (
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center">
               <span className="text-white font-medium text-sm">
-                {currentUser.name.charAt(0).toUpperCase()}
+                {user.name?.charAt(0).toUpperCase() ||
+                  user.email.charAt(0).toUpperCase()}
               </span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-white truncate">
-                {currentUser.name}
+                {user.name || user.email}
               </p>
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 rounded-full bg-green-400"></div>
@@ -158,8 +155,10 @@ export const Sidebar = ({ currentUser }: SidebarProps) => {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="text-center"></div>
+        )}
+      </div>
     </div>
   );
 
