@@ -16,6 +16,7 @@ interface AuthContextType {
   sendVerification: () => Promise<void>;
   setNeedsOnboarding: (needs: boolean) => void;
   checkEmailVerification: () => Promise<boolean>;
+  refreshUser: () => Promise<void>; // Add this method
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -49,7 +50,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setEmailVerified(currentUser.emailVerification);
 
       // Check if user has completed onboarding
-      // You'll need to implement this based on your user preferences or database
       const hasCompletedOnboarding =
         currentUser.prefs?.onboardingCompleted || false;
       setNeedsOnboarding(
@@ -62,6 +62,23 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setNeedsOnboarding(false);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const refreshUser = async () => {
+    try {
+      const currentUser = await account.get();
+      setUser(currentUser);
+      setEmailVerified(currentUser.emailVerification);
+
+      // Check if user has completed onboarding
+      const hasCompletedOnboarding =
+        currentUser.prefs?.onboardingCompleted || false;
+      setNeedsOnboarding(
+        !hasCompletedOnboarding && currentUser.emailVerification
+      );
+    } catch (error) {
+      console.error("Error refreshing user:", error);
     }
   };
 
@@ -155,6 +172,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     sendVerification,
     setNeedsOnboarding,
     checkEmailVerification,
+    refreshUser, // Add this to the context value
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
