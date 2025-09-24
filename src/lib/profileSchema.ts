@@ -25,7 +25,7 @@ export interface UserProfile {
   streamingPlatform?: "twitch" | "youtube" | "kick";
   bannerUrl?: string;
   walletAddress?: string;
-  streamSchedule?: string; // JSON string
+  streamSchedule?: string[]; // JSON string array
   subscriberCount?: number;
   avgViewerCount?: number;
 
@@ -35,11 +35,11 @@ export interface UserProfile {
   contactPhone?: string;
   website?: string;
   teamSize?: number;
-  specializations?: string; // JSON array
+  specializations?: string[]; // Array of specializations
 
   // Clipper-specific
   portfolioUrl?: string;
-  preferredGenres?: string; // JSON array
+  preferredGenres?: string[]; // Array of genres
   averageClipsPerWeek?: number;
   editingSoftware?: string;
 
@@ -47,7 +47,7 @@ export interface UserProfile {
   bio?: string;
   location?: string;
   timezone?: string;
-  languages?: string; // JSON array
+  languages?: string[]; // Array of languages - FIXED
   joinedAt: string;
 
   // Performance/Stats
@@ -74,8 +74,8 @@ export interface UserProfile {
   // Additional metadata
   referralCode?: string;
   referredBy?: string;
-  tags?: string; // JSON array
-  customFields?: string; // JSON object
+  tags?: string[]; // Array of tags
+  customFields?: Record<string, unknown>; // Object instead of JSON string
 }
 
 // Helper functions for working with the profile data
@@ -102,6 +102,10 @@ export const createEmptyProfile = (
     avgViewerCount: 0,
     teamSize: 1,
     averageClipsPerWeek: 0,
+    languages: [], // Initialize as empty array
+    specializations: [],
+    preferredGenres: [],
+    tags: [],
     emailNotifications: true,
     pushNotifications: true,
     profileVisibility: "public",
@@ -143,57 +147,89 @@ export const validateProfileByType = (
   return errors;
 };
 
+// Helper function to convert comma-separated string to array
+export const stringToArray = (str: string | undefined): string[] => {
+  if (!str || !str.trim()) return [];
+  return str
+    .split(",")
+    .map((item) => item.trim())
+    .filter((item) => item);
+};
+
+// Helper function to convert array to comma-separated string
+export const arrayToString = (arr: string[] | undefined): string => {
+  if (!arr || !Array.isArray(arr)) return "";
+  return arr.join(", ");
+};
+
 // Function to prepare profile data for database insert
 export const prepareProfileForDatabase = (profile: Partial<UserProfile>) => {
-  // Remove undefined values and prepare JSON fields
+  // Remove undefined values
   const cleanProfile = Object.fromEntries(
     Object.entries(profile).filter(([_, value]) => value !== undefined)
   );
 
-  // Convert arrays to JSON strings if they exist and are arrays
-  if (profile.specializations && Array.isArray(profile.specializations)) {
-    cleanProfile.specializations = JSON.stringify(profile.specializations);
+  // Ensure arrays are properly formatted for Appwrite
+  if (profile.languages) {
+    cleanProfile.languages = Array.isArray(profile.languages)
+      ? profile.languages
+      : stringToArray(profile.languages as string);
   }
-  if (profile.preferredGenres && Array.isArray(profile.preferredGenres)) {
-    cleanProfile.preferredGenres = JSON.stringify(profile.preferredGenres);
+
+  if (profile.specializations) {
+    cleanProfile.specializations = Array.isArray(profile.specializations)
+      ? profile.specializations
+      : stringToArray(profile.specializations as string);
   }
-  if (profile.languages && Array.isArray(profile.languages)) {
-    cleanProfile.languages = JSON.stringify(profile.languages);
+
+  if (profile.preferredGenres) {
+    cleanProfile.preferredGenres = Array.isArray(profile.preferredGenres)
+      ? profile.preferredGenres
+      : stringToArray(profile.preferredGenres as string);
   }
-  if (profile.tags && Array.isArray(profile.tags)) {
-    cleanProfile.tags = JSON.stringify(profile.tags);
+
+  if (profile.tags) {
+    cleanProfile.tags = Array.isArray(profile.tags)
+      ? profile.tags
+      : stringToArray(profile.tags as string);
   }
 
   return cleanProfile;
 };
 
-// Function to parse profile data from database
-export const parseProfileFromDatabase = (profile: any): UserProfile => {
+// Function to parse profile data from database (now arrays come as arrays)
+export const parseProfileFromDatabase = (profile: UserProfile): UserProfile => {
   const parsedProfile = { ...profile };
 
-  // Parse JSON string fields back to arrays/objects
+  // Ensure arrays are arrays (Appwrite should return them as arrays already)
+  if (parsedProfile.languages && !Array.isArray(parsedProfile.languages)) {
+    parsedProfile.languages = stringToArray(parsedProfile.languages);
+  }
+
+  if (
+    parsedProfile.specializations &&
+    !Array.isArray(parsedProfile.specializations)
+  ) {
+    parsedProfile.specializations = stringToArray(
+      parsedProfile.specializations
+    );
+  }
+
+  if (
+    parsedProfile.preferredGenres &&
+    !Array.isArray(parsedProfile.preferredGenres)
+  ) {
+    parsedProfile.preferredGenres = stringToArray(
+      parsedProfile.preferredGenres
+    );
+  }
+
+  if (parsedProfile.tags && !Array.isArray(parsedProfile.tags)) {
+    parsedProfile.tags = stringToArray(parsedProfile.tags);
+  }
+
+  // Parse other JSON fields if they exist as strings
   try {
-    if (
-      parsedProfile.specializations &&
-      typeof parsedProfile.specializations === "string"
-    ) {
-      parsedProfile.specializations = JSON.parse(parsedProfile.specializations);
-    }
-    if (
-      parsedProfile.preferredGenres &&
-      typeof parsedProfile.preferredGenres === "string"
-    ) {
-      parsedProfile.preferredGenres = JSON.parse(parsedProfile.preferredGenres);
-    }
-    if (
-      parsedProfile.languages &&
-      typeof parsedProfile.languages === "string"
-    ) {
-      parsedProfile.languages = JSON.parse(parsedProfile.languages);
-    }
-    if (parsedProfile.tags && typeof parsedProfile.tags === "string") {
-      parsedProfile.tags = JSON.parse(parsedProfile.tags);
-    }
     if (
       parsedProfile.customFields &&
       typeof parsedProfile.customFields === "string"

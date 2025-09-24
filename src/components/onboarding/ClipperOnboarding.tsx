@@ -8,8 +8,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/useToast";
 import { account, databases, storage } from "@/lib/appwrite";
 import {
+  arrayToString,
   createEmptyProfile,
   prepareProfileForDatabase,
+  stringToArray,
   UserProfile,
   validateProfileByType,
 } from "@/lib/profileSchema";
@@ -63,10 +65,10 @@ export const ClipperOnboarding = ({ onComplete }: ClipperOnboardingProps) => {
       twitterUsername: "",
       instagramUsername: "",
       portfolioUrl: "",
-      preferredGenres: "",
+      preferredGenres: [],
       editingSoftware: "",
       averageClipsPerWeek: 0,
-      languages: "",
+      languages: [],
     } as Partial<UserProfile>;
   });
 
@@ -99,7 +101,11 @@ export const ClipperOnboarding = ({ onComplete }: ClipperOnboardingProps) => {
     if (!avatarFile || !user) return null;
 
     try {
-      const fileId = `clipper_avatar_${user.$id}_${Date.now()}`;
+      // Generate a valid file ID (max 36 chars, alphanumeric + . - _)
+      const timestamp = Date.now().toString();
+      const userIdShort = user.$id.slice(-8); // Last 8 chars of user ID
+      const fileId = `avatar_${userIdShort}_${timestamp}`;
+
       const bucketId = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID;
 
       if (!bucketId) {
@@ -155,23 +161,26 @@ export const ClipperOnboarding = ({ onComplete }: ClipperOnboardingProps) => {
         }
       }
 
-      const genresArray = formData.preferredGenres
+      // Ensure arrays are properly formatted
+      const genresArray = Array.isArray(formData.preferredGenres)
         ? formData.preferredGenres
-            .split(",")
-            .map((g) => g.trim())
-            .filter((g) => g)
-        : [];
+        : stringToArray(formData.preferredGenres as unknown as string);
+
+      const languagesArray = Array.isArray(formData.languages)
+        ? formData.languages
+        : stringToArray(formData.languages as unknown as string);
 
       const completeProfile: Partial<UserProfile> = {
         ...formData,
         userId: user.$id,
         email: user.email,
         avatarUrl,
+        languages: languagesArray,
+        preferredGenres: genresArray,
         userType: "clipper",
         onboardingCompleted: true,
         joinedAt: new Date().toISOString(),
         lastActive: new Date().toISOString(),
-        preferredGenres: JSON.stringify(genresArray),
       };
 
       await account.updatePrefs({
@@ -184,6 +193,7 @@ export const ClipperOnboarding = ({ onComplete }: ClipperOnboardingProps) => {
         bio: formData.bio,
         portfolioUrl: formData.portfolioUrl,
         editingSoftware: formData.editingSoftware,
+        languages: arrayToString(languagesArray), // Store as string in prefs
       });
 
       try {
@@ -394,15 +404,19 @@ export const ClipperOnboarding = ({ onComplete }: ClipperOnboardingProps) => {
                     <Input
                       id="languages"
                       placeholder="English, Spanish, etc."
-                      value={formData.languages || ""}
-                      onChange={(e) =>
+                      value={arrayToString(formData.languages)}
+                      onChange={(e) => {
+                        const languagesArray = stringToArray(e.target.value);
                         setFormData((prev) => ({
                           ...prev,
-                          languages: e.target.value,
-                        }))
-                      }
+                          languages: languagesArray,
+                        }));
+                      }}
                       className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                     />
+                    <p className="text-xs text-gray-500">
+                      Separate multiple languages with commas
+                    </p>
                   </div>
                 </div>
 
@@ -454,10 +468,11 @@ export const ClipperOnboarding = ({ onComplete }: ClipperOnboardingProps) => {
                     </Label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                       {contentGenres.map((genre) => {
-                        const currentGenres =
+                        const currentGenres = Array.isArray(
                           formData.preferredGenres
-                            ?.split(",")
-                            .map((g) => g.trim()) || [];
+                        )
+                          ? formData.preferredGenres
+                          : [];
                         const isSelected = currentGenres.includes(genre);
 
                         return (
@@ -472,16 +487,16 @@ export const ClipperOnboarding = ({ onComplete }: ClipperOnboardingProps) => {
                                 : "border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
                             }`}
                             onClick={() => {
-                              const currentGenres =
+                              const currentGenres = Array.isArray(
                                 formData.preferredGenres
-                                  ?.split(",")
-                                  .map((g) => g.trim())
-                                  .filter((g) => g) || [];
-                              let newGenres;
+                              )
+                                ? formData.preferredGenres
+                                : [];
+                              let newGenres: string[];
 
                               if (isSelected) {
                                 newGenres = currentGenres.filter(
-                                  (g) => g !== genre
+                                  (g: string) => g !== genre
                                 );
                               } else {
                                 newGenres = [...currentGenres, genre];
@@ -489,7 +504,7 @@ export const ClipperOnboarding = ({ onComplete }: ClipperOnboardingProps) => {
 
                               setFormData((prev) => ({
                                 ...prev,
-                                preferredGenres: newGenres.join(", "),
+                                preferredGenres: newGenres,
                               }));
                             }}
                           >

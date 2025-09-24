@@ -11,6 +11,7 @@ import { account, databases, storage } from "@/lib/appwrite";
 import {
   createEmptyProfile,
   prepareProfileForDatabase,
+  stringToArray,
   UserProfile,
   validateProfileByType,
 } from "@/lib/profileSchema";
@@ -69,7 +70,7 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
       instagramUsername: "",
       walletAddress: "",
       website: "",
-      languages: "",
+      languages: [],
       subscriberCount: 0,
       avgViewerCount: 0,
     } as unknown as Partial<UserProfile>;
@@ -123,7 +124,10 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
     if (!user) return null;
 
     try {
-      const fileId = `${prefix}_${user.$id}_${Date.now()}`;
+      const timestamp = Date.now().toString();
+      const userIdShort = user.$id.slice(-8);
+      const fileId = `${prefix}_${userIdShort}_${timestamp}`;
+
       const bucketId = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID;
 
       if (!bucketId) {
@@ -170,7 +174,6 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
   const handleComplete = async () => {
     if (!user) return;
 
-    // Final validation
     const validationErrors = validateProfileByType(formData);
     if (validationErrors.length > 0) {
       setErrors(validationErrors);
@@ -193,6 +196,11 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
         if (uploadedUrl) bannerUrl = uploadedUrl;
       }
 
+      // Ensure languages is an array
+      const languagesArray = Array.isArray(formData.languages)
+        ? formData.languages
+        : stringToArray(formData.languages as unknown as string);
+
       // Prepare complete profile data
       const completeProfile: Partial<UserProfile> = {
         ...formData,
@@ -200,13 +208,14 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
         email: user.email,
         avatarUrl,
         bannerUrl,
+        languages: languagesArray,
         userType: "streamer",
         onboardingCompleted: true,
         joinedAt: new Date().toISOString(),
         lastActive: new Date().toISOString(),
       };
 
-      // Update user preferences
+      // Update user preferences (with string for backwards compatibility)
       await account.updatePrefs({
         ...user.prefs,
         onboardingCompleted: true,
@@ -219,6 +228,7 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
         youtubeChannel: formData.youtubeChannel,
         twitterUsername: formData.twitterUsername,
         walletAddress: formData.walletAddress,
+        languages: languagesArray.join(", "), // Store as string in prefs
       });
 
       // Create user profile in database
@@ -238,18 +248,14 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
         }
       } catch (dbError) {
         console.error("Database profile creation failed:", dbError);
-        // Continue anyway since user prefs were updated successfully
       }
 
-      // Refresh user data in context
       await refreshUser();
-
       toast({
         title: "Welcome, Streamer!",
         description:
           "Your profile is ready. Time to create your first token launch!",
       });
-
       onComplete();
     } catch (error) {
       console.error("Profile setup error:", error);
@@ -741,15 +747,23 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
                     <Input
                       id="languages"
                       placeholder="English, Spanish, Japanese (comma separated)"
-                      value={formData.languages || ""}
-                      onChange={(e) =>
+                      value={
+                        Array.isArray(formData.languages)
+                          ? formData.languages.join(", ")
+                          : formData.languages || ""
+                      }
+                      onChange={(e) => {
+                        const languagesArray = stringToArray(e.target.value);
                         setFormData((prev) => ({
                           ...prev,
-                          languages: e.target.value,
-                        }))
-                      }
+                          languages: languagesArray,
+                        }));
+                      }}
                       className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                     />
+                    <p className="text-xs text-gray-500">
+                      Separate multiple languages with commas
+                    </p>
                   </div>
                 </div>
 

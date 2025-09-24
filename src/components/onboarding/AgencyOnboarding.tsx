@@ -11,6 +11,7 @@ import { account, databases, storage } from "@/lib/appwrite";
 import {
   createEmptyProfile,
   prepareProfileForDatabase,
+  stringToArray,
   UserProfile,
   validateProfileByType,
 } from "@/lib/profileSchema";
@@ -67,7 +68,7 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
       teamSize: 1,
       specializations: "",
       languages: "",
-    } as Partial<UserProfile>;
+    } as unknown as Partial<UserProfile>;
   });
 
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
@@ -100,7 +101,11 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
     if (!avatarFile || !user) return null;
 
     try {
-      const fileId = `agency_logo_${user.$id}_${Date.now()}`;
+      // Generate a valid file ID (max 36 chars, alphanumeric + . - _)
+      const timestamp = Date.now().toString();
+      const userIdShort = user.$id.slice(-8); // Last 8 chars of user ID
+      const fileId = `logo_${userIdShort}_${timestamp}`;
+
       const bucketId = process.env.NEXT_PUBLIC_APPWRITE_STORAGE_BUCKET_ID;
 
       if (!bucketId) {
@@ -147,7 +152,6 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
   const handleComplete = async () => {
     if (!user) return;
 
-    // Final validation
     const validationErrors = validateProfileByType(formData);
     if (validationErrors.length > 0) {
       setErrors(validationErrors);
@@ -163,28 +167,28 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
         if (uploadedUrl) avatarUrl = uploadedUrl;
       }
 
-      // Prepare specializations array
-      const specializationsArray = formData.specializations
+      // Ensure arrays are properly formatted
+      const specializationsArray = Array.isArray(formData.specializations)
         ? formData.specializations
-            .split(",")
-            .map((s) => s.trim())
-            .filter((s) => s)
-        : [];
+        : stringToArray(formData.specializations as unknown as string);
 
-      // Prepare complete profile data
+      const languagesArray = Array.isArray(formData.languages)
+        ? formData.languages
+        : stringToArray(formData.languages as unknown as string);
+
       const completeProfile: Partial<UserProfile> = {
         ...formData,
         userId: user.$id,
         email: user.email,
         avatarUrl,
+        specializations: specializationsArray,
+        languages: languagesArray,
         userType: "agency",
         onboardingCompleted: true,
         joinedAt: new Date().toISOString(),
         lastActive: new Date().toISOString(),
-        specializations: JSON.stringify(specializationsArray),
       };
 
-      // Update user preferences
       await account.updatePrefs({
         ...user.prefs,
         onboardingCompleted: true,
@@ -197,9 +201,9 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
         contactPhone: formData.contactPhone,
         teamSize: formData.teamSize,
         website: formData.website,
+        languages: languagesArray.join(", "), // Store as string in prefs
       });
 
-      // Create user profile in database
       try {
         const databaseId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
         const collectionId =
@@ -216,18 +220,14 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
         }
       } catch (dbError) {
         console.error("Database profile creation failed:", dbError);
-        // Continue anyway since user prefs were updated successfully
       }
 
-      // Refresh user data in context
       await refreshUser();
-
       toast({
         title: "Welcome to CLIP!",
         description:
           "Your agency profile is ready. Start recruiting and managing creators!",
       });
-
       onComplete();
     } catch (error) {
       console.error("Profile setup error:", error);
@@ -549,15 +549,23 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
                       <Input
                         id="languages"
                         placeholder="English, Spanish, Japanese"
-                        value={formData.languages || ""}
-                        onChange={(e) =>
+                        value={
+                          Array.isArray(formData.languages)
+                            ? formData.languages.join(", ")
+                            : formData.languages || ""
+                        }
+                        onChange={(e) => {
+                          const languagesArray = stringToArray(e.target.value);
                           setFormData((prev) => ({
                             ...prev,
-                            languages: e.target.value,
-                          }))
-                        }
+                            languages: languagesArray,
+                          }));
+                        }}
                         className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
                       />
+                      <p className="text-xs text-gray-500">
+                        Separate multiple languages with commas
+                      </p>
                     </div>
                   </div>
 
@@ -568,12 +576,14 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
                     </Label>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                       {specializationOptions.map((spec) => {
-                        const currentSpecs =
+                        const currentSpecs = Array.isArray(
                           formData.specializations
-                            ?.split(",")
-                            .map((s) => s.trim()) || [];
+                        )
+                          ? formData.specializations
+                          : stringToArray(
+                              formData.specializations as unknown as string
+                            );
                         const isSelected = currentSpecs.includes(spec);
-
                         return (
                           <Button
                             key={spec}
@@ -586,13 +596,15 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
                                 : "border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white"
                             }`}
                             onClick={() => {
-                              const currentSpecs =
+                              const currentSpecs = Array.isArray(
                                 formData.specializations
-                                  ?.split(",")
-                                  .map((s) => s.trim())
-                                  .filter((s) => s) || [];
-                              let newSpecs;
+                              )
+                                ? formData.specializations
+                                : stringToArray(
+                                    formData.specializations as unknown as string
+                                  );
 
+                              let newSpecs: string[];
                               if (isSelected) {
                                 newSpecs = currentSpecs.filter(
                                   (s) => s !== spec
@@ -603,7 +615,7 @@ export const AgencyOnboarding = ({ onComplete }: AgencyOnboardingProps) => {
 
                               setFormData((prev) => ({
                                 ...prev,
-                                specializations: newSpecs.join(", "),
+                                specializations: newSpecs,
                               }));
                             }}
                           >
