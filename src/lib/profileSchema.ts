@@ -166,7 +166,7 @@ export const arrayToString = (arr: string[] | undefined): string => {
 export const prepareProfileForDatabase = (profile: Partial<UserProfile>) => {
   // Remove undefined values
   const cleanProfile = Object.fromEntries(
-    Object.entries(profile).filter(([_, value]) => value !== undefined)
+    Object.entries(profile).filter(([, value]) => value !== undefined)
   );
 
   // Ensure arrays are properly formatted for Appwrite

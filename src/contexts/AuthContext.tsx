@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setNeedsOnboarding(
         !hasCompletedOnboarding && currentUser.emailVerification
       );
-    } catch (error) {
+    } catch {
       console.log("No active session");
       setUser(null);
       setEmailVerified(false);
@@ -97,9 +97,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const currentUser = await account.get();
       setUser(currentUser);
       setEmailVerified(false);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Registration error:", error);
-      throw new Error(error.message || "Registration failed");
+      const errorMessage =
+        error instanceof Error ? error.message : "Registration failed";
+      throw new Error(errorMessage);
     }
   };
 
@@ -116,9 +118,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setNeedsOnboarding(
         !hasCompletedOnboarding && currentUser.emailVerification
       );
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Login error:", error);
-      throw new Error(error.message || "Login failed");
+      const errorMessage =
+        error instanceof Error ? error.message : "Login failed";
+      throw new Error(errorMessage);
     }
   };
 
@@ -137,9 +141,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const verificationUrl = `${window.location.origin}/verify-email`;
       await account.createVerification(verificationUrl);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Send verification error:", error);
-      throw new Error(error.message || "Failed to send verification email");
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to send verification email";
+      throw new Error(errorMessage);
     }
   };
 

@@ -48,8 +48,10 @@ export const AuthModal = ({
       // TODO: Implement Google OAuth with Appwrite
       // await account.createOAuth2Session('google', 'http://localhost:3000/auth/success', 'http://localhost:3000/auth/failure');
       console.log("Google auth not implemented yet");
-    } catch (error: any) {
-      setError(error.message || "Google authentication failed");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Google authentication failed";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -82,8 +84,10 @@ export const AuthModal = ({
         await register(email, password, name);
         setShowVerificationMessage(true);
       }
-    } catch (error: any) {
-      setError(error.message || "Authentication failed");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Authentication failed";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -119,7 +123,7 @@ export const AuthModal = ({
               Check Your Email
             </h2>
             <p className="text-gray-400">
-              We've sent a verification link to{" "}
+              We&apos;ve sent a verification link to{" "}
               <strong className="text-white">{email}</strong>
             </p>
           </CardHeader>
