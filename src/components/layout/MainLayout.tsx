@@ -27,17 +27,14 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
         router.push("/onboarding");
         return;
       }
-
-      // If user is verified but needs onboarding, show onboarding flow
-      if (user && emailVerified && needsOnboarding) {
-        // This will be handled by the onboarding check below
-        return;
-      }
     }
-  }, [user, loading, emailVerified, needsOnboarding, router]);
+  }, [user, loading, emailVerified, router]);
 
-  // Show onboarding flow if user needs it
-  if (user && emailVerified && needsOnboarding) {
+  // Show onboarding flow if user needs it AND is email verified
+  const shouldShowOnboarding = user && emailVerified && needsOnboarding;
+
+  // If we should show onboarding, render the onboarding flow
+  if (shouldShowOnboarding) {
     return <OnboardingFlow />;
   }
 

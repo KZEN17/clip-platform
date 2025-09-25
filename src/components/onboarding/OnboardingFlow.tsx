@@ -1,5 +1,6 @@
 // src/components/onboarding/OnboardingFlow.tsx
 import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AgencyOnboarding } from "./AgencyOnboarding";
 import { ClipperOnboarding } from "./ClipperOnboarding";
@@ -11,13 +12,18 @@ export const OnboardingFlow = () => {
     "clipper" | "streamer" | "agency" | null
   >(null);
   const { setNeedsOnboarding } = useAuth();
+  const router = useRouter();
 
   const handleRoleSelect = (role: "clipper" | "streamer" | "agency") => {
     setSelectedRole(role);
   };
 
   const handleOnboardingComplete = () => {
+    // Set onboarding as complete in local state
     setNeedsOnboarding(false);
+
+    // Navigate to home page
+    router.push("/");
   };
 
   if (!selectedRole) {
