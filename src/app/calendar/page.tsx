@@ -21,12 +21,8 @@ export default function LaunchCalendarPage() {
   const [selectedDate, setSelectedDate] = useState(18);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
-  const currentUser = {
-    name: "zack.kargeen",
-  };
-
   return (
-    <MainLayout currentUser={currentUser}>
+    <MainLayout>
       <div className="min-h-screen bg-gray-900 text-white">
         {/* Top Banner */}
         <div className="bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 mx-6 mt-6 rounded-lg p-4 flex items-center justify-between">
