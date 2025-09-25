@@ -139,9 +139,9 @@ export const validateLaunchEvent = (launch: Partial<LaunchEvent>): string[] => {
     errors.push("Launch title is required");
   }
 
-  if (!launch.tokenLogo?.trim()) {
-    errors.push("Token logo is required");
-  }
+  // if (!launch.tokenLogo?.trim()) {
+  //   errors.push("Token logo is required");
+  // }
 
   if (!launch.scheduledDate?.trim()) {
     errors.push("Scheduled date is required");
@@ -204,9 +204,9 @@ export const validateRewardsCampaign = (
     errors.push("Campaign title is required");
   }
 
-  if (!campaign.campaignImage?.trim()) {
-    errors.push("Campaign image is required");
-  }
+  // if (!campaign.campaignImage?.trim()) {
+  //   errors.push("Campaign image is required");
+  // }
 
   if (!campaign.prizePool || campaign.prizePool <= 0) {
     errors.push("Prize pool must be greater than 0");
@@ -227,13 +227,13 @@ export const validateRewardsCampaign = (
     }
   }
 
-  if (!campaign.googleDriveLink?.trim()) {
-    errors.push("Google Drive link is required");
-  }
+  // if (!campaign.googleDriveLink?.trim()) {
+  //   errors.push("Google Drive link is required");
+  // }
 
-  if (!campaign.socialMediaLinks || campaign.socialMediaLinks.length === 0) {
-    errors.push("At least one social media link is required");
-  }
+  // if (!campaign.socialMediaLinks || campaign.socialMediaLinks.length === 0) {
+  //   errors.push("At least one social media link is required");
+  // }
 
   // Validate social media links format
   if (campaign.socialMediaLinks) {
@@ -247,19 +247,19 @@ export const validateRewardsCampaign = (
   }
 
   // Validate Google Drive link format
-  if (campaign.googleDriveLink && campaign.googleDriveLink.trim()) {
-    try {
-      const url = new URL(campaign.googleDriveLink);
-      if (
-        !url.hostname.includes("drive.google.com") &&
-        !url.hostname.includes("docs.google.com")
-      ) {
-        errors.push("Google Drive link must be a valid Google Drive URL");
-      }
-    } catch {
-      errors.push("Google Drive link is not a valid URL");
-    }
-  }
+  // if (campaign.googleDriveLink && campaign.googleDriveLink.trim()) {
+  //   try {
+  //     const url = new URL(campaign.googleDriveLink);
+  //     if (
+  //       !url.hostname.includes("drive.google.com") &&
+  //       !url.hostname.includes("docs.google.com")
+  //     ) {
+  //       errors.push("Google Drive link must be a valid Google Drive URL");
+  //     }
+  //   } catch {
+  //     errors.push("Google Drive link is not a valid URL");
+  //   }
+  // }
 
   return errors;
 };

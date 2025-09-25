@@ -706,15 +706,7 @@ export const CampaignCreator = ({
               </Button>
               <Button
                 type="submit"
-                disabled={
-                  loading ||
-                  !formData.campaignTitle ||
-                  !formData.prizePool ||
-                  !formData.payoutPer1kViews ||
-                  !formData.campaignEndDate ||
-                  !formData.googleDriveLink ||
-                  !formData.socialMediaLinks?.length
-                }
+                disabled={false}
                 className="flex-1 bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-500 hover:to-purple-600 text-white"
               >
                 {loading ? "Creating..." : "Create Campaign"}
