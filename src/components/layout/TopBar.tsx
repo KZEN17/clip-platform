@@ -43,9 +43,7 @@ export const TopBar = ({ onSignInClick, onSignUpClick }: TopBarProps) => {
                 <p className="text-sm font-medium text-white">
                   {user.name || user.email}
                 </p>
-                <p className="text-xs text-gray-400">
-                  {user.prefs?.userType || "User"}
-                </p>
+                <p className="text-xs text-gray-400"></p>
               </div>
             </div>
 
