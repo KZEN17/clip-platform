@@ -319,10 +319,6 @@ const SubmissionModal = ({
 };
 
 export default function RewardsPage() {
-  const currentUser = {
-    name: "zack.kargeen",
-  };
-
   const [selectedCampaign, setSelectedCampaign] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("active");
   const [isSubmissionModalOpen, setIsSubmissionModalOpen] = useState(false);
@@ -357,7 +353,7 @@ export default function RewardsPage() {
   };
 
   return (
-    <MainLayout currentUser={currentUser}>
+    <MainLayout>
       <div className="min-h-screen bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <SubmissionModal
