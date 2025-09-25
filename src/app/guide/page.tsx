@@ -1,3 +1,4 @@
+// src/app/guide/page.tsx
 "use client";
 
 // import { CampaignLauncher } from "@/components/campaign/CampaignLauncher";
@@ -17,15 +18,8 @@ import {
   Video,
   Wallet,
 } from "lucide-react";
-import { useState } from "react";
 
 export default function GuidePage() {
-  const currentUser = {
-    name: "zack.kargeen",
-  };
-
-  const [isLauncherOpen, setIsLauncherOpen] = useState(false);
-
   const guideSteps = [
     {
       step: 1,
@@ -122,7 +116,7 @@ export default function GuidePage() {
   ];
 
   return (
-    <MainLayout currentUser={currentUser}>
+    <MainLayout>
       <div className="min-h-screen bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="space-y-8">
@@ -184,7 +178,7 @@ export default function GuidePage() {
               </h2>
 
               <div className="space-y-6">
-                {guideSteps.map((step, index) => (
+                {guideSteps.map((step) => (
                   <Card
                     key={step.step}
                     className="bg-gray-800 border-gray-700 hover:border-gray-600 transition-all duration-300 hover:shadow-lg"
@@ -238,7 +232,7 @@ export default function GuidePage() {
               </h2>
 
               <div className="grid md:grid-cols-2 gap-6">
-                <Card className="border-pink-500/20 bg-pink-500/5 bg-gray-800">
+                <Card className="border-pink-500/20 bg-pink-500/5">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2 text-white">
                       <Star className="w-5 h-5 text-pink-500" />
@@ -275,7 +269,7 @@ export default function GuidePage() {
                   </CardContent>
                 </Card>
 
-                <Card className="border-purple-400/20 bg-purple-400/5 bg-gray-800">
+                <Card className="border-purple-400/20 bg-purple-400/5">
                   <CardHeader>
                     <CardTitle className="flex items-center space-x-2 text-white">
                       <Star className="w-5 h-5 text-purple-400" />
@@ -336,24 +330,13 @@ export default function GuidePage() {
                     size="lg"
                     variant="outline"
                     className="border-pink-500 text-pink-500 hover:bg-pink-500/10 px-8 py-3"
-                    onClick={() => setIsLauncherOpen(true)}
                   >
-                    Create Campaign
+                    View Launch Guide
                   </Button>
                 </div>
               </div>
             </section>
           </div>
-
-          {/* Campaign Launcher Modal */}
-          {/* <CampaignLauncher
-            isOpen={isLauncherOpen}
-            onClose={() => setIsLauncherOpen(false)}
-            onSuccess={() => {
-              // Handle success
-              console.log("Campaign created successfully");
-            }}
-          /> */}
         </div>
       </div>
     </MainLayout>

@@ -30,6 +30,7 @@ import {
   Wallet,
   Youtube,
 } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import {
   Select,
@@ -338,9 +339,11 @@ export const StreamerOnboarding = ({ onComplete }: StreamerOnboardingProps) => {
                   <div className="relative">
                     <div className="w-full h-32 bg-gray-700 rounded-lg overflow-hidden border-2 border-dashed border-gray-600">
                       {bannerPreview ? (
-                        <img
+                        <Image
                           src={bannerPreview}
                           alt="Banner"
+                          width={800}
+                          height={128}
                           className="w-full h-full object-cover"
                         />
                       ) : (

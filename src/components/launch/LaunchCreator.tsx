@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar, Gamepad2, Upload, Users, X } from "lucide-react";
+import Image from "next/image";
 import { useState } from "react";
 import { Textarea } from "../ui/textarea";
 
@@ -204,9 +205,11 @@ export const LaunchCreator = ({
               <Label className="text-white">Event Thumbnail</Label>
               {thumbnailPreview ? (
                 <div className="relative">
-                  <img
+                  <Image
                     src={thumbnailPreview}
                     alt="Thumbnail preview"
+                    height={48}
+                    width={200}
                     className="w-full h-48 object-cover rounded-lg border border-gray-600"
                   />
                   <Button

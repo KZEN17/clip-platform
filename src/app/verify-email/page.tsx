@@ -53,10 +53,14 @@ export default function VerifyEmailPage() {
           setStatus("error");
           setMessage("Verification failed. Please try again.");
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Verification error:", error);
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : "Verification failed. Please try again.";
         setStatus("error");
-        setMessage(error.message || "Verification failed. Please try again.");
+        setMessage(errorMessage);
       }
     };
 
@@ -70,8 +74,12 @@ export default function VerifyEmailPage() {
     try {
       await sendVerification();
       setMessage("Verification email sent! Please check your inbox.");
-    } catch (error: any) {
-      setMessage(error.message || "Failed to send verification email.");
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to send verification email.";
+      setMessage(errorMessage);
     } finally {
       setResending(false);
     }

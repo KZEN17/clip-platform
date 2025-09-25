@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/contexts/AuthContext";
 import { Mail, RefreshCw } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function OnboardingPage() {
   const {
@@ -21,6 +21,17 @@ export default function OnboardingPage() {
   const [resendingEmail, setResendingEmail] = useState(false);
   const router = useRouter();
 
+  const handleCheckVerification = useCallback(async () => {
+    setCheckingVerification(true);
+    try {
+      await checkEmailVerification();
+    } catch (error) {
+      console.error("Error checking verification:", error);
+    } finally {
+      setCheckingVerification(false);
+    }
+  }, [checkEmailVerification]);
+
   useEffect(() => {
     // Redirect if not logged in
     if (!loading && !user) {
@@ -32,18 +43,7 @@ export default function OnboardingPage() {
     if (user && !emailVerified) {
       handleCheckVerification();
     }
-  }, [user, loading, emailVerified, router]);
-
-  const handleCheckVerification = async () => {
-    setCheckingVerification(true);
-    try {
-      await checkEmailVerification();
-    } catch (error) {
-      console.error("Error checking verification:", error);
-    } finally {
-      setCheckingVerification(false);
-    }
-  };
+  }, [user, loading, emailVerified, router, handleCheckVerification]);
 
   const handleResendEmail = async () => {
     setResendingEmail(true);
