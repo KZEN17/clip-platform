@@ -20,10 +20,6 @@ export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isLaunchCreatorOpen, setIsLaunchCreatorOpen] = useState(false);
 
-  const currentUser = {
-    name: "zack.kargeen",
-  };
-
   const stats = [
     { label: "Total Users", value: "45,678", color: "text-pink-500" },
     { label: "Earnings Paid", value: "$125,340", color: "text-green-400" },
@@ -62,7 +58,7 @@ export default function Home() {
   ];
 
   return (
-    <MainLayout currentUser={currentUser}>
+    <MainLayout>
       <div className="min-h-screen bg-gray-900">
         {/* Hero Section - Compact */}
         <section className="py-24 px-6 flex items-center justify-center">
