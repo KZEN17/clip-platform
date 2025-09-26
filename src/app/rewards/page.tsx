@@ -30,7 +30,7 @@ import {
   Zap,
 } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Types for campaign and CampaignCard props
 interface CampaignCardProps {
@@ -102,6 +102,8 @@ const CampaignCard = ({ campaign, onJoin, onView }: CampaignCardProps) => {
             <Image
               src={campaign.campaignImage}
               alt={campaign.campaignTitle}
+              width={400}
+              height={128}
               className="w-full h-full object-cover"
             />
           </div>
@@ -206,6 +208,8 @@ const CampaignDetail = ({ campaign, onBack, onJoin }: CampaignDetailProps) => {
               <Image
                 src={campaign.campaignImage}
                 alt={campaign.campaignTitle}
+                width={800}
+                height={192}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -341,35 +345,40 @@ export default function RewardsPage() {
   const [isCreatorOpen, setIsCreatorOpen] = useState(false);
   const [campaigns, setCampaigns] = useState<RewardsCampaign[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
   const { toast } = useToast();
 
   // Load campaigns from Appwrite
-  // useEffect(() => {
-  //   loadCampaigns();
-  // });
+  useEffect(() => {
+    loadCampaigns();
+  }, []);
 
   const loadCampaigns = async () => {
     try {
       setLoading(true);
+      setError(null);
+
       const databaseId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
       const collectionId =
         process.env.NEXT_PUBLIC_APPWRITE_CAMPAIGNS_COLLECTION_ID;
 
       if (!databaseId || !collectionId) {
         console.warn("Database or collection ID not configured");
+        setError("Database configuration missing");
         setLoading(false);
         return;
       }
 
       const response = await databases.listDocuments(databaseId, collectionId, [
         Query.orderDesc("$createdAt"),
-        Query.limit(50),
+        Query.limit(100),
       ]);
 
       setCampaigns(response.documents as unknown as RewardsCampaign[]);
     } catch (error) {
       console.error("Error loading campaigns:", error);
+      setError("Failed to load campaigns");
       toast({
         title: "Error Loading Campaigns",
         description: "Could not load campaigns. Please try again.",
@@ -454,6 +463,22 @@ export default function RewardsPage() {
                   engagement.
                 </p>
               </div>
+
+              {/* Error State */}
+              {error && (
+                <Card className="bg-red-500/10 border-red-500/20">
+                  <CardContent className="p-6 text-center">
+                    <div className="text-red-400 mb-2">⚠️ Error</div>
+                    <p className="text-red-300">{error}</p>
+                    <Button
+                      onClick={loadCampaigns}
+                      className="mt-4 bg-red-500 hover:bg-red-600 text-white"
+                    >
+                      Try Again
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
 
               {/* Rewards Hub Intro */}
               <Card className="bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-cyan-400/10 border-pink-500/20">
