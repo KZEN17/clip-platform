@@ -35,7 +35,7 @@ export default function LaunchCalendarPage() {
   // Load launch events from Appwrite
   useEffect(() => {
     loadLaunchEvents();
-  });
+  }, []);
 
   const loadLaunchEvents = async () => {
     try {
