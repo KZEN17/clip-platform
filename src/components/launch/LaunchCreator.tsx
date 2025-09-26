@@ -20,7 +20,6 @@ import {
   createEmptyLaunchEvent,
   LaunchEvent,
   prepareLaunchEventForDatabase,
-  validateLaunchEvent,
 } from "@/lib/launchSchema";
 import { ID } from "appwrite";
 import {
@@ -119,20 +118,53 @@ export const LaunchCreator = ({
     }
   };
 
+  // FIXED: Validation function that doesn't cause re-renders
+  const validateForm = () => {
+    const errors: string[] = [];
+
+    // Check required text fields
+    if (!formData.streamerName?.trim()) {
+      errors.push("Streamer name is required");
+    }
+
+    if (!formData.launchTitle?.trim()) {
+      errors.push("Launch title is required");
+    }
+
+    if (!formData.scheduledDate?.trim()) {
+      errors.push("Scheduled date is required");
+    } else {
+      const date = new Date(formData.scheduledDate);
+      if (isNaN(date.getTime())) {
+        errors.push("Invalid date format");
+      } else if (date < new Date()) {
+        errors.push("Scheduled date must be in the future");
+      }
+    }
+
+    // FIXED: Check for logo - either existing URL, preview, or file selected
+    const hasLogo = !!(logoFile || logoPreview || formData.tokenLogo);
+    if (!hasLogo) {
+      errors.push("Token logo is required");
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // FIXED: Validate and set errors only when submitting
+    const validationErrors = validateForm();
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     setLoading(true);
-    setErrors([]);
+    setErrors([]); // Clear errors since validation passed
 
     try {
-      // Validate form data
-      const validationErrors = validateLaunchEvent(formData);
-      if (validationErrors.length > 0) {
-        setErrors(validationErrors);
-        setLoading(false);
-        return;
-      }
-
       let logoUrl = formData.tokenLogo;
 
       // Upload logo if provided
@@ -149,6 +181,13 @@ export const LaunchCreator = ({
           setLoading(false);
           return;
         }
+      }
+
+      // Final validation after upload
+      if (!logoUrl) {
+        setErrors(["Token logo is required"]);
+        setLoading(false);
+        return;
       }
 
       // Prepare launch event data
@@ -329,7 +368,6 @@ export const LaunchCreator = ({
                       onChange={handleLogoUpload}
                       className="hidden"
                       id="logo-upload"
-                      required={!logoPreview}
                     />
                     <Label
                       htmlFor="logo-upload"
@@ -680,13 +718,7 @@ export const LaunchCreator = ({
               </Button>
               <Button
                 type="submit"
-                disabled={
-                  loading ||
-                  !formData.streamerName ||
-                  !formData.launchTitle ||
-                  (!logoFile && !logoPreview && !formData.tokenLogo) ||
-                  !formData.scheduledDate
-                }
+                disabled={loading}
                 className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white"
               >
                 {loading ? "Creating..." : "Create Launch Event"}

@@ -1,4 +1,3 @@
-// src/components/campaign/CampaignCreator.tsx
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -20,7 +19,6 @@ import {
   RewardsCampaign,
   createEmptyRewardsCampaign,
   prepareRewardsCampaignForDatabase,
-  validateRewardsCampaign,
 } from "@/lib/launchSchema";
 
 import { ID } from "appwrite";
@@ -122,17 +120,35 @@ export const CampaignCreator = ({
   };
 
   const addSocialMediaLink = () => {
-    if (!socialMediaInput.trim()) return;
+    const trimmedInput = socialMediaInput.trim();
+    if (!trimmedInput) {
+      toast({
+        title: "Empty Link",
+        description: "Please enter a social media link",
+        variant: "destructive",
+      });
+      return;
+    }
 
+    // Check if it's a valid URL
     try {
-      new URL(socialMediaInput);
+      // Add https:// if no protocol is specified
+      const urlToTest = trimmedInput.startsWith("http")
+        ? trimmedInput
+        : `https://${trimmedInput}`;
+      new URL(urlToTest);
+
       const currentLinks = formData.socialMediaLinks || [];
-      if (!currentLinks.includes(socialMediaInput)) {
+      if (!currentLinks.includes(urlToTest)) {
         setFormData((prev) => ({
           ...prev,
-          socialMediaLinks: [...currentLinks, socialMediaInput],
+          socialMediaLinks: [...currentLinks, urlToTest],
         }));
         setSocialMediaInput("");
+        toast({
+          title: "Link Added",
+          description: "Social media link has been added successfully",
+        });
       } else {
         toast({
           title: "Duplicate Link",
@@ -143,7 +159,8 @@ export const CampaignCreator = ({
     } catch {
       toast({
         title: "Invalid URL",
-        description: "Please enter a valid URL",
+        description:
+          "Please enter a valid URL (e.g., https://twitter.com/yourhandle)",
         variant: "destructive",
       });
     }
@@ -157,20 +174,96 @@ export const CampaignCreator = ({
     }));
   };
 
+  // FIXED: Validation function that doesn't cause re-renders
+  const validateForm = () => {
+    const errors: string[] = [];
+
+    // Required text fields
+    if (!formData.campaignTitle?.trim()) {
+      errors.push("Campaign title is required");
+    }
+
+    // FIXED: Check for campaign image - either existing URL, preview, or file selected
+    const hasImage = !!(imageFile || imagePreview || formData.campaignImage);
+    if (!hasImage) {
+      errors.push("Campaign image is required");
+    }
+
+    // Prize pool validation
+    if (!formData.prizePool || formData.prizePool <= 0) {
+      errors.push("Prize pool must be greater than 0");
+    }
+
+    // Payout validation
+    if (!formData.payoutPer1kViews || formData.payoutPer1kViews <= 0) {
+      errors.push("Payout per 1K views must be greater than 0");
+    }
+
+    // End date validation
+    if (!formData.campaignEndDate?.trim()) {
+      errors.push("Campaign end date is required");
+    } else {
+      const date = new Date(formData.campaignEndDate);
+      if (isNaN(date.getTime())) {
+        errors.push("Invalid end date format");
+      } else if (date < new Date()) {
+        errors.push("End date must be in the future");
+      }
+    }
+
+    // Google Drive link validation
+    if (!formData.googleDriveLink?.trim()) {
+      errors.push("Google Drive link is required");
+    } else {
+      try {
+        const url = new URL(formData.googleDriveLink);
+        if (
+          !url.hostname.includes("drive.google.com") &&
+          !url.hostname.includes("docs.google.com")
+        ) {
+          errors.push("Google Drive link must be a valid Google Drive URL");
+        }
+      } catch {
+        errors.push("Google Drive link is not a valid URL");
+      }
+    }
+
+    // Social media links validation
+    if (!formData.socialMediaLinks || formData.socialMediaLinks.length === 0) {
+      errors.push("At least one social media link is required");
+    } else {
+      // Validate each social media link
+      formData.socialMediaLinks.forEach((link, index) => {
+        try {
+          new URL(link);
+        } catch {
+          errors.push(`Social media link ${index + 1} is not a valid URL`);
+        }
+      });
+    }
+
+    return errors;
+  };
+
+  // FIXED: Check if form is valid without causing re-renders
+  const isFormValid = () => {
+    return validateForm().length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // FIXED: Validate and set errors only when submitting
+    const validationErrors = validateForm();
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     setLoading(true);
-    setErrors([]);
+    setErrors([]); // Clear errors since validation passed
 
     try {
-      // Validate form data
-      const validationErrors = validateRewardsCampaign(formData);
-      if (validationErrors.length > 0) {
-        setErrors(validationErrors);
-        setLoading(false);
-        return;
-      }
-
       let imageUrl = formData.campaignImage;
 
       // Upload image if provided
@@ -187,6 +280,13 @@ export const CampaignCreator = ({
           setLoading(false);
           return;
         }
+      }
+
+      // Final validation after upload
+      if (!imageUrl) {
+        setErrors(["Campaign image is required"]);
+        setLoading(false);
+        return;
       }
 
       // Prepare campaign data
@@ -329,7 +429,7 @@ export const CampaignCreator = ({
                       Upload campaign banner
                     </p>
                     <p className="text-xs text-gray-500 mb-4">
-                      PNG, JPG up to 5MB (Recommended: 1200x630px, Max: 5MB)
+                      PNG, JPG up to 5MB (Recommended: 1200x630px)
                     </p>
                     <Input
                       type="file"
@@ -337,7 +437,6 @@ export const CampaignCreator = ({
                       onChange={handleImageUpload}
                       className="hidden"
                       id="image-upload"
-                      required={!imagePreview}
                     />
                     <Label
                       htmlFor="image-upload"
@@ -451,7 +550,7 @@ export const CampaignCreator = ({
                   required
                 />
                 <p className="text-xs text-gray-500">
-                  Optional: Link to Google Drive folder with campaign assets
+                  Link to Google Drive folder with campaign assets
                 </p>
               </div>
 
@@ -459,12 +558,13 @@ export const CampaignCreator = ({
               <div className="space-y-4">
                 <Label className="text-white flex items-center gap-2">
                   <Link className="w-4 h-4 text-purple-400" />
-                  Social Media Links *
+                  Social Media Links * (At least one required)
                 </Label>
 
+                {/* Input to add new social media link */}
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Add social media or website link"
+                    placeholder="Add social media or website link (https://...)"
                     value={socialMediaInput}
                     onChange={(e) => setSocialMediaInput(e.target.value)}
                     className="bg-gray-700 border-gray-600 text-white placeholder:text-gray-400"
@@ -478,28 +578,37 @@ export const CampaignCreator = ({
                   <Button
                     type="button"
                     onClick={addSocialMediaLink}
-                    className="bg-purple-500 hover:bg-purple-600 text-white"
+                    disabled={!socialMediaInput.trim()}
+                    className="bg-purple-500 hover:bg-purple-600 text-white disabled:opacity-50"
                   >
                     <Plus className="w-4 h-4" />
                   </Button>
                 </div>
 
+                {/* Display added social media links */}
                 {formData.socialMediaLinks &&
                   formData.socialMediaLinks.length > 0 && (
                     <div className="space-y-2">
+                      <p className="text-sm text-gray-400">
+                        Added links ({formData.socialMediaLinks.length}):
+                      </p>
                       {formData.socialMediaLinks.map((link, index) => (
                         <div
                           key={index}
-                          className="flex items-center justify-between bg-gray-700 p-2 rounded-md"
+                          className="flex items-center justify-between bg-gray-700 p-3 rounded-md border border-gray-600"
                         >
-                          <span className="text-white text-sm truncate">
-                            {link}
-                          </span>
+                          <div className="flex items-center gap-2 flex-1">
+                            <Globe className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                            <span className="text-white text-sm truncate">
+                              {link}
+                            </span>
+                          </div>
                           <Button
                             type="button"
                             variant="destructive"
                             size="sm"
                             onClick={() => removeSocialMediaLink(index)}
+                            className="ml-2 flex-shrink-0"
                           >
                             <Trash2 className="w-3 h-3" />
                           </Button>
@@ -507,8 +616,25 @@ export const CampaignCreator = ({
                       ))}
                     </div>
                   )}
+
+                {/* Show current status */}
+                <div className="text-xs text-gray-500">
+                  {formData.socialMediaLinks &&
+                  formData.socialMediaLinks.length > 0 ? (
+                    <span className="text-green-400">
+                      ✓ {formData.socialMediaLinks.length} social media link(s)
+                      added
+                    </span>
+                  ) : (
+                    <span className="text-red-400">
+                      ⚠ At least one social media link is required
+                    </span>
+                  )}
+                </div>
+
                 <p className="text-xs text-gray-500">
-                  Add relevant social media profiles, websites, or other links
+                  Add relevant social media profiles, websites, or other links.
+                  Examples: Twitter, Instagram, TikTok, YouTube, Discord, etc.
                 </p>
               </div>
             </div>
@@ -706,7 +832,7 @@ export const CampaignCreator = ({
               </Button>
               <Button
                 type="submit"
-                disabled={false}
+                disabled={loading || !isFormValid()}
                 className="flex-1 bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-500 hover:to-purple-600 text-white"
               >
                 {loading ? "Creating..." : "Create Campaign"}
