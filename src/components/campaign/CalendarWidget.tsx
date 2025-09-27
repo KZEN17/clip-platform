@@ -50,10 +50,10 @@ export const CalendarWidget = ({
   const calendarDays = generateCalendarDays();
 
   return (
-    <Card className="bg-gray-800 border-gray-700">
+    <Card className="bg-black border-gray-800">
       <CardHeader className="flex flex-row items-center justify-between pb-4">
         <CardTitle className="text-white flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-purple-400" />
+          <Calendar className="w-5 h-5 text-teal-400" />
           Launch Calendar
         </CardTitle>
         {!loading && (
@@ -85,7 +85,7 @@ export const CalendarWidget = ({
 
         {loading ? (
           <div className="flex justify-center py-8">
-            <RefreshCw className="w-6 h-6 text-purple-400 animate-spin" />
+            <RefreshCw className="w-6 h-6 text-teal-400 animate-spin" />
           </div>
         ) : (
           <div className="grid grid-cols-7 gap-1 text-center">
@@ -99,9 +99,9 @@ export const CalendarWidget = ({
                   onClick={() => onDateSelect(day)}
                   className={`p-2 rounded text-sm font-medium transition-all ${
                     isSelected
-                      ? "bg-purple-500 text-white"
+                      ? "bg-teal-400 text-black"
                       : hasEvent
-                      ? "text-purple-400 bg-purple-400/20 hover:bg-purple-400/30"
+                      ? "text-teal-400 bg-teal-400/20 hover:bg-teal-400/30"
                       : "text-gray-400 hover:text-white hover:bg-gray-700"
                   }`}
                 >

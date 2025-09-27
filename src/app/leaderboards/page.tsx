@@ -58,7 +58,7 @@ export default function LeaderboardsPage() {
       views: "640K",
       avatar: "CS",
       trend: "+5%",
-      color: "from-pink-500 to-purple-500",
+      color: "from-teal-400 to-emerald-400",
     },
     {
       rank: 5,
@@ -68,7 +68,7 @@ export default function LeaderboardsPage() {
       views: "520K",
       avatar: "EM",
       trend: "+3%",
-      color: "from-blue-500 to-cyan-500",
+      color: "from-cyan-400 to-teal-400",
     },
   ];
 
@@ -111,7 +111,7 @@ export default function LeaderboardsPage() {
       totalViews: "1.2M",
       avatar: "LP",
       trend: "+11%",
-      color: "from-pink-500 to-purple-500",
+      color: "from-teal-400 to-emerald-400",
     },
     {
       rank: 5,
@@ -121,7 +121,7 @@ export default function LeaderboardsPage() {
       totalViews: "980K",
       avatar: "SL",
       trend: "+9%",
-      color: "from-blue-500 to-cyan-500",
+      color: "from-cyan-400 to-teal-400",
     },
   ];
 
@@ -144,12 +144,12 @@ export default function LeaderboardsPage() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="space-y-8">
             {/* Header */}
             <div className="text-center space-y-4">
-              <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
+              <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-teal-300 via-emerald-400 to-cyan-300 bg-clip-text text-transparent">
                 Leaderboards
               </h1>
               <p className="text-xl text-gray-400 max-w-2xl mx-auto">
@@ -159,7 +159,7 @@ export default function LeaderboardsPage() {
 
             {/* Stats Overview */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className="bg-black border-gray-800">
                 <CardContent className="p-6 text-center">
                   <Crown className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
                   <h3 className="text-lg font-bold text-white mb-2">
@@ -172,31 +172,31 @@ export default function LeaderboardsPage() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className="bg-black border-gray-800">
                 <CardContent className="p-6 text-center">
-                  <Trophy className="w-12 h-12 text-pink-500 mx-auto mb-4" />
+                  <Trophy className="w-12 h-12 text-teal-400 mx-auto mb-4" />
                   <h3 className="text-lg font-bold text-white mb-2">
                     Top Clipper
                   </h3>
-                  <p className="text-lg font-bold text-pink-500">@clipmaster</p>
+                  <p className="text-lg font-bold text-teal-400">@clipmaster</p>
                   <p className="text-xs text-gray-400 mt-1">$2,450 earned</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className="bg-black border-gray-800">
                 <CardContent className="p-6 text-center">
-                  <Medal className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                  <Medal className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
                   <h3 className="text-lg font-bold text-white mb-2">
                     Top Streamer
                   </h3>
-                  <p className="text-lg font-bold text-purple-400">
+                  <p className="text-lg font-bold text-emerald-400">
                     @pumpmaster
                   </p>
                   <p className="text-xs text-gray-400 mt-1">$3,250 earned</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className="bg-black border-gray-800">
                 <CardContent className="p-6 text-center">
                   <TrendingUp className="w-12 h-12 text-green-400 mx-auto mb-4" />
                   <h3 className="text-lg font-bold text-white mb-2">
@@ -210,7 +210,7 @@ export default function LeaderboardsPage() {
 
             {/* Time Period Tabs */}
             <div className="flex justify-center">
-              <div className="bg-gray-800 rounded-full p-1 flex">
+              <div className="bg-black rounded-full p-1 flex border border-gray-800">
                 {[
                   { id: "all-time", label: "All Time" },
                   { id: "monthly", label: "This Month" },
@@ -221,7 +221,7 @@ export default function LeaderboardsPage() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`px-6 py-3 rounded-full text-sm font-medium transition-all ${
                       activeTab === tab.id
-                        ? "bg-pink-500 text-white shadow-lg"
+                        ? "bg-teal-400 text-black shadow-lg"
                         : "text-gray-400 hover:text-white hover:bg-gray-700"
                     }`}
                   >
@@ -234,7 +234,7 @@ export default function LeaderboardsPage() {
             {/* Leaderboards */}
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Top Clippers */}
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className="bg-black border-gray-800">
                 <CardHeader>
                   <CardTitle className="text-white flex items-center gap-2 text-xl">
                     <Scissors className="w-6 h-6 text-cyan-400" />
@@ -248,7 +248,7 @@ export default function LeaderboardsPage() {
                   {topClippers.map((clipper) => (
                     <div
                       key={clipper.rank}
-                      className="flex items-center justify-between p-4 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-all duration-300"
+                      className="flex items-center justify-between p-4 rounded-lg bg-gray-900/50 hover:bg-gray-700 transition-all duration-300"
                     >
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
@@ -258,7 +258,7 @@ export default function LeaderboardsPage() {
                         <div
                           className={`w-10 h-10 rounded-full bg-gradient-to-r ${clipper.color} flex items-center justify-center`}
                         >
-                          <span className="text-white font-bold text-sm">
+                          <span className="text-black font-bold text-sm">
                             {clipper.avatar}
                           </span>
                         </div>
@@ -296,12 +296,12 @@ export default function LeaderboardsPage() {
               </Card>
 
               {/* Top Streamers */}
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className="bg-black border-gray-800">
                 <CardHeader>
                   <CardTitle className="text-white flex items-center gap-2 text-xl">
-                    <Star className="w-6 h-6 text-pink-500" />
+                    <Star className="w-6 h-6 text-teal-400" />
                     Top Streamers
-                    <Badge className="bg-pink-500/20 text-pink-500 ml-auto">
+                    <Badge className="bg-teal-400/20 text-teal-400 ml-auto">
                       {topStreamers.length} Active
                     </Badge>
                   </CardTitle>
@@ -310,7 +310,7 @@ export default function LeaderboardsPage() {
                   {topStreamers.map((streamer) => (
                     <div
                       key={streamer.rank}
-                      className="flex items-center justify-between p-4 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-all duration-300"
+                      className="flex items-center justify-between p-4 rounded-lg bg-gray-900/50 hover:bg-gray-700 transition-all duration-300"
                     >
                       <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">
@@ -320,7 +320,7 @@ export default function LeaderboardsPage() {
                         <div
                           className={`w-10 h-10 rounded-full bg-gradient-to-r ${streamer.color} flex items-center justify-center`}
                         >
-                          <span className="text-white font-bold text-sm">
+                          <span className="text-black font-bold text-sm">
                             {streamer.avatar}
                           </span>
                         </div>
@@ -360,7 +360,7 @@ export default function LeaderboardsPage() {
             </div>
 
             {/* Achievement Section */}
-            <Card className="bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-cyan-400/10 border-pink-500/20">
+            <Card className="border-teal-400/20 bg-gradient-to-r from-teal-400/5 via-emerald-400/5 to-cyan-400/5">
               <CardContent className="p-8">
                 <div className="text-center space-y-6">
                   <div className="flex items-center justify-center space-x-2">
@@ -377,7 +377,7 @@ export default function LeaderboardsPage() {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button
                       size="lg"
-                      className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-3"
+                      className="bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black px-8 py-3"
                       onClick={() => (window.location.href = "/rewards")}
                     >
                       <Zap className="w-5 h-5 mr-2" />

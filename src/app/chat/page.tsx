@@ -94,7 +94,7 @@ const Progress = ({
 }) => (
   <div className={`w-full bg-gray-700 rounded-full h-2 ${className}`}>
     <div
-      className={`h-2 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-300 ${
+      className={`h-2 rounded-full bg-gradient-to-r from-teal-400 to-emerald-400 transition-all duration-300 ${
         animated ? "animate-pulse" : ""
       }`}
       style={{ width: `${Math.min(Math.max(value, 0), 100)}%` }}
@@ -134,9 +134,9 @@ const RaidCard = ({ raid, onJoin }: RaidCardProps) => {
         return {
           label: "Mission",
           icon: Target,
-          color: "text-pink-500",
-          bgColor: "bg-pink-500/10",
-          badgeClass: "bg-pink-500 text-white",
+          color: "text-teal-400",
+          bgColor: "bg-teal-400/10",
+          badgeClass: "bg-teal-400 text-black",
         };
       case "takeover":
         return {
@@ -144,23 +144,23 @@ const RaidCard = ({ raid, onJoin }: RaidCardProps) => {
           icon: Crown,
           color: "text-cyan-400",
           bgColor: "bg-cyan-400/10",
-          badgeClass: "bg-cyan-400 text-white",
+          badgeClass: "bg-cyan-400 text-black",
         };
       case "support":
         return {
           label: "Support",
           icon: Heart,
-          color: "text-purple-400",
-          bgColor: "bg-purple-400/10",
-          badgeClass: "bg-purple-400 text-white",
+          color: "text-emerald-400",
+          bgColor: "bg-emerald-400/10",
+          badgeClass: "bg-emerald-400 text-black",
         };
       default:
         return {
           label: "Mission",
           icon: Target,
-          color: "text-pink-500",
-          bgColor: "bg-pink-500/10",
-          badgeClass: "bg-pink-500 text-white",
+          color: "text-teal-400",
+          bgColor: "bg-teal-400/10",
+          badgeClass: "bg-teal-400 text-black",
         };
     }
   };
@@ -197,8 +197,8 @@ const RaidCard = ({ raid, onJoin }: RaidCardProps) => {
 
   return (
     <Card
-      className={`bg-gray-800 border-gray-700 hover:border-gray-600 transition-all duration-300 ${
-        isLive ? "border-pink-500/50 shadow-lg shadow-pink-500/25" : ""
+      className={`bg-black border-gray-800 hover:border-gray-600 transition-all duration-300 ${
+        isLive ? "border-teal-400/50 shadow-lg shadow-teal-400/25" : ""
       }`}
     >
       <CardHeader className="pb-4">
@@ -206,9 +206,9 @@ const RaidCard = ({ raid, onJoin }: RaidCardProps) => {
           <div className="flex items-start gap-4 flex-1">
             <div className="flex-shrink-0">
               <div
-                className={`w-12 h-12 rounded-lg bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center border-2 border-pink-500/20`}
+                className={`w-12 h-12 rounded-lg bg-gradient-to-r from-teal-400 to-emerald-400 flex items-center justify-center border-2 border-teal-400/20`}
               >
-                <Icon className="w-6 h-6 text-white" />
+                <Icon className="w-6 h-6 text-black" />
               </div>
             </div>
 
@@ -297,7 +297,7 @@ const RaidCard = ({ raid, onJoin }: RaidCardProps) => {
             <Button
               size="sm"
               onClick={() => onJoin(raid.id)}
-              className="gap-1 bg-pink-500 hover:bg-pink-600 text-white"
+              className="gap-1 bg-teal-400 hover:bg-teal-300 text-black"
             >
               <Play className="w-3 h-3" />
               Join Raid
@@ -319,7 +319,7 @@ const RaidCreator = ({ isOpen, onClose }: RaidCreatorProps) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-2xl bg-gray-800 border-gray-700">
+      <Card className="w-full max-w-2xl bg-black border-gray-800">
         <CardHeader>
           <CardTitle className="text-white">Create New RAID</CardTitle>
         </CardHeader>
@@ -337,7 +337,7 @@ const RaidCreator = ({ isOpen, onClose }: RaidCreatorProps) => {
             </Button>
             <Button
               onClick={onClose}
-              className="flex-1 bg-pink-500 hover:bg-pink-600 text-white"
+              className="flex-1 bg-teal-400 hover:bg-teal-300 text-black"
             >
               Create RAID
             </Button>
@@ -417,9 +417,9 @@ export default function RaidChatPage() {
       case "donate":
         return <DollarSign className="w-4 h-4 text-cyan-400" />;
       case "subs":
-        return <Gift className="w-4 h-4 text-purple-400" />;
+        return <Gift className="w-4 h-4 text-emerald-400" />;
       case "token":
-        return <TrendingUp className="w-4 h-4 text-pink-500" />;
+        return <TrendingUp className="w-4 h-4 text-teal-400" />;
       default:
         return <Zap className="w-4 h-4" />;
     }
@@ -430,9 +430,9 @@ export default function RaidChatPage() {
       case "donate":
         return "text-cyan-400";
       case "subs":
-        return "text-purple-400";
+        return "text-emerald-400";
       case "token":
-        return "text-pink-500";
+        return "text-teal-400";
       default:
         return "text-gray-400";
     }
@@ -440,12 +440,14 @@ export default function RaidChatPage() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="space-y-8">
             {/* Header */}
             <div className="text-center space-y-4">
-              <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent"></h1>
+              <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-teal-300 via-emerald-400 to-cyan-300 bg-clip-text text-transparent">
+                Raid Chat
+              </h1>
               <p className="text-xl text-gray-400 max-w-2xl mx-auto">
                 We raid, we donate, we buy subs, we buy tokens. Trade attention
                 for growth.
@@ -454,7 +456,7 @@ export default function RaidChatPage() {
                 <Button
                   onClick={() => setShowCreator(true)}
                   size="lg"
-                  className="gap-2 text-lg px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white"
+                  className="gap-2 text-lg px-8 py-3 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black"
                 >
                   <Plus className="w-5 h-5" />
                   Create New RAID
@@ -463,7 +465,7 @@ export default function RaidChatPage() {
             </div>
 
             {/* Explainer */}
-            <Card className="bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-cyan-400/10 border-pink-500/20">
+            <Card className="bg-gradient-to-r from-teal-400/10 via-emerald-400/10 to-cyan-400/10 border-teal-400/20">
               <CardContent className="p-8">
                 <div className="text-center space-y-4">
                   <h2 className="text-2xl font-bold text-white">
@@ -476,8 +478,8 @@ export default function RaidChatPage() {
                   </p>
                   <div className="grid md:grid-cols-3 gap-6 mt-8">
                     <div className="text-center space-y-2">
-                      <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-pink-600 rounded-xl flex items-center justify-center mx-auto">
-                        <DollarSign className="w-6 h-6 text-white" />
+                      <div className="w-12 h-12 bg-gradient-to-r from-teal-400 to-teal-500 rounded-xl flex items-center justify-center mx-auto">
+                        <DollarSign className="w-6 h-6 text-black" />
                       </div>
                       <h3 className="font-semibold text-white">Donations</h3>
                       <p className="text-sm text-gray-400">
@@ -485,8 +487,8 @@ export default function RaidChatPage() {
                       </p>
                     </div>
                     <div className="text-center space-y-2">
-                      <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto">
-                        <Gift className="w-6 h-6 text-white" />
+                      <div className="w-12 h-12 bg-gradient-to-r from-emerald-400 to-emerald-500 rounded-xl flex items-center justify-center mx-auto">
+                        <Gift className="w-6 h-6 text-black" />
                       </div>
                       <h3 className="font-semibold text-white">
                         Subscriber Gifts
@@ -497,7 +499,7 @@ export default function RaidChatPage() {
                     </div>
                     <div className="text-center space-y-2">
                       <div className="w-12 h-12 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-xl flex items-center justify-center mx-auto">
-                        <TrendingUp className="w-6 h-6 text-white" />
+                        <TrendingUp className="w-6 h-6 text-black" />
                       </div>
                       <h3 className="font-semibold text-white">
                         Token Purchases
@@ -515,7 +517,7 @@ export default function RaidChatPage() {
             <section className="space-y-6">
               <div className="text-center">
                 <h2 className="text-3xl font-bold flex items-center justify-center space-x-2 mb-2 text-white">
-                  <PlayCircle className="w-8 h-8 text-pink-500" />
+                  <PlayCircle className="w-8 h-8 text-teal-400" />
                   <span>Live RAID Session</span>
                 </h2>
                 <p className="text-gray-400">
@@ -526,7 +528,7 @@ export default function RaidChatPage() {
               {currentRaid ? (
                 <RaidCard raid={currentRaid} onJoin={handleJoinRaid} />
               ) : (
-                <Card className="border-dashed border-2 border-gray-600 bg-gray-800">
+                <Card className="border-dashed border-2 border-gray-600 bg-black">
                   <CardContent className="p-12 text-center space-y-6">
                     <div className="text-gray-400">
                       <PlayCircle className="w-16 h-16 mx-auto mb-4 opacity-50" />
@@ -540,7 +542,7 @@ export default function RaidChatPage() {
                     <Button
                       onClick={() => setShowCreator(true)}
                       size="lg"
-                      className="gap-2 text-lg px-8 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white"
+                      className="gap-2 text-lg px-8 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black"
                     >
                       <Plus className="w-5 h-5" />
                       Launch First RAID
@@ -555,7 +557,7 @@ export default function RaidChatPage() {
               <section className="space-y-6">
                 <div className="text-center">
                   <h2 className="text-3xl font-bold flex items-center justify-center space-x-2 mb-2 text-white">
-                    <Clock className="w-8 h-8 text-purple-400" />
+                    <Clock className="w-8 h-8 text-emerald-400" />
                     <span>Upcoming Raids</span>
                   </h2>
                   <p className="text-gray-400">
@@ -593,7 +595,7 @@ export default function RaidChatPage() {
                 <span>Live Action Log</span>
               </h2>
 
-              <Card className="bg-gray-800 border-gray-700">
+              <Card className="bg-black border-gray-800">
                 <CardHeader>
                   <CardTitle className="text-white">Recent Activity</CardTitle>
                 </CardHeader>
@@ -650,7 +652,7 @@ export default function RaidChatPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-cyan-400/10 rounded-xl p-8">
+            <section className="bg-gradient-to-r from-teal-400/10 via-emerald-400/10 to-cyan-400/10 rounded-xl p-8 border border-teal-400/20">
               <div className="text-center space-y-6">
                 <h2 className="text-3xl font-bold text-white">
                   Ready to Join the Movement?
@@ -662,7 +664,7 @@ export default function RaidChatPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-3"
+                    className="bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black px-8 py-3"
                     onClick={() =>
                       window.open("https://discord.gg/clip", "_blank")
                     }
@@ -673,7 +675,7 @@ export default function RaidChatPage() {
                   <Button
                     variant="outline"
                     size="lg"
-                    className="border-gray-600 text-gray-300 hover:bg-gray-700 hover:text-white px-8 py-3"
+                    className="border-teal-400 text-teal-400 hover:bg-teal-400/10 px-8 py-3"
                   >
                     Sign Up for Raids
                   </Button>

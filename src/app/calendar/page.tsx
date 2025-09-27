@@ -118,25 +118,25 @@ export default function LaunchCalendarPage() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gray-900 text-white">
+      <div className="min-h-screen bg-black text-white">
         {/* Top Banner */}
-        <div className="bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 mx-6 mt-6 rounded-lg p-4 flex items-center justify-between">
+        <div className="bg-gradient-to-r from-teal-400/20 via-emerald-400/20 to-cyan-400/20 mx-6 mt-6 rounded-lg p-4 flex items-center justify-between border border-teal-400/30">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              <Calendar className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-full bg-teal-400/20 backdrop-blur-sm flex items-center justify-center border border-teal-400/50">
+              <Calendar className="w-5 h-5 text-teal-400" />
             </div>
             <div>
               <h3 className="font-semibold text-white">
                 Launch your token stream today.
               </h3>
-              <p className="text-sm text-blue-100">
+              <p className="text-sm text-gray-300">
                 Create, stream, and get featured in the calendar.
               </p>
             </div>
           </div>
           <Button
             onClick={() => setIsCreateModalOpen(true)}
-            className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-300 hover:to-blue-400 text-white font-semibold rounded-full px-6 py-2 shadow-lg"
+            className="bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black font-semibold rounded-full px-6 py-2 shadow-lg"
           >
             <Plus className="w-4 h-4 mr-2" />
             Create a Launch
@@ -150,13 +150,13 @@ export default function LaunchCalendarPage() {
               Never miss a pump.fun launch event
             </h1>
 
-            <Button className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-400 hover:to-rose-400 text-white font-semibold rounded-full px-8 py-3 shadow-lg">
+            <Button className="bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black font-semibold rounded-full px-8 py-3 shadow-lg">
               <Bell className="w-4 h-4 mr-2" />
               Notifications On
             </Button>
 
             <div className="flex items-center justify-center gap-2 text-sm text-gray-300">
-              <div className="w-2 h-2 rounded-full bg-purple-400" />
+              <div className="w-2 h-2 rounded-full bg-teal-400" />
               Contributions unlock launches and fund initial allocation + DEX
               fees
             </div>
@@ -216,7 +216,7 @@ export default function LaunchCalendarPage() {
                   ))}
                 </div>
               ) : (
-                <Card className="bg-gray-800 border-gray-700 text-center p-12">
+                <Card className="bg-black border-gray-800 text-center p-12">
                   <CardContent>
                     <Calendar className="w-16 h-16 text-gray-500 mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-white mb-2">
@@ -228,7 +228,7 @@ export default function LaunchCalendarPage() {
                     </p>
                     <Button
                       onClick={() => setIsCreateModalOpen(true)}
-                      className="bg-purple-500 text-white hover:bg-purple-400"
+                      className="bg-teal-400 text-black hover:bg-teal-300"
                     >
                       Create Your First Event
                     </Button>
@@ -245,22 +245,22 @@ export default function LaunchCalendarPage() {
           />
 
           {/* CTA */}
-          <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 rounded-xl p-8 text-center">
+          <div className="bg-gradient-to-r from-teal-400/10 via-emerald-400/10 to-cyan-400/10 rounded-xl p-8 text-center border border-teal-400/20">
             <h2 className="text-4xl font-bold text-white mb-4">
               Want to Launch Your Token?
             </h2>
-            <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+            <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
               Get featured on our launch calendar and tap into our clipper
               network for maximum exposure.
             </p>
             <div className="flex justify-center gap-4">
               <Button
                 onClick={() => setIsCreateModalOpen(true)}
-                className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-400 hover:to-rose-400 text-white font-semibold rounded-full px-8 py-3 text-lg"
+                className="bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black font-semibold rounded-full px-8 py-3 text-lg"
               >
                 Submit Launch Request
               </Button>
-              <Button className="border-2 border-purple-300 bg-transparent text-purple-300 hover:bg-purple-300/10 rounded-full px-8 py-3 text-lg font-semibold">
+              <Button className="border-2 border-teal-400 bg-transparent text-teal-400 hover:bg-teal-400/10 rounded-full px-8 py-3 text-lg font-semibold">
                 View Launch Guide
               </Button>
             </div>

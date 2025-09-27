@@ -36,7 +36,7 @@ export default function ProfilePage() {
       label: "Clips Created",
       value: "23",
       icon: Trophy,
-      color: "text-pink-500",
+      color: "text-teal-400",
       change: "+4",
     },
     {
@@ -99,7 +99,7 @@ export default function ProfilePage() {
       title: "First Clip",
       description: "Created your first viral clip",
       icon: Trophy,
-      color: "text-pink-500",
+      color: "text-teal-400",
       earned: true,
     },
     {
@@ -120,7 +120,7 @@ export default function ProfilePage() {
       title: "Launch Expert",
       description: "Successfully launched 5 tokens",
       icon: Target,
-      color: "text-purple-400",
+      color: "text-emerald-400",
       earned: false,
     },
   ];
@@ -142,13 +142,13 @@ export default function ProfilePage() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gray-900">
+      <div className="min-h-screen bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="space-y-8">
             {/* Header */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <User className="w-8 h-8 text-green-400" />
+                <User className="w-8 h-8 text-teal-400" />
                 <h1 className="text-3xl font-bold text-white">Profile</h1>
               </div>
               <Button
@@ -163,17 +163,19 @@ export default function ProfilePage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Profile Card */}
               <div className="lg:col-span-1">
-                <Card className="bg-gray-800 border-gray-700">
+                <Card className="bg-black border-gray-800">
                   <CardContent className="p-6 text-center">
-                    <div className="w-24 h-24 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center mx-auto mb-4">
-                      <span className="text-white font-bold text-2xl"></span>
+                    <div className="w-24 h-24 rounded-full bg-gradient-to-r from-teal-400 to-emerald-400 flex items-center justify-center mx-auto mb-4">
+                      <span className="text-black font-bold text-2xl">CL</span>
                     </div>
-                    <h2 className="text-xl font-bold text-white mb-2"></h2>
+                    <h2 className="text-xl font-bold text-white mb-2">
+                      ClipMaster
+                    </h2>
                     <div className="flex items-center justify-center gap-2 mb-4">
                       <div className="w-2 h-2 rounded-full bg-green-400"></div>
                       <span className="text-sm text-gray-400">Online</span>
                     </div>
-                    <Badge className="mb-4 bg-purple-500 text-white">
+                    <Badge className="mb-4 bg-teal-400 text-black">
                       Pro Clipper
                     </Badge>
                     <p className="text-gray-400 text-sm mb-6">
@@ -183,7 +185,7 @@ export default function ProfilePage() {
 
                     <div className="space-y-3">
                       <Button
-                        className="w-full bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white"
+                        className="w-full bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black"
                         onClick={() => setIsLaunchCreatorOpen(true)}
                       >
                         <Plus className="w-4 h-4 mr-2" />
@@ -201,7 +203,7 @@ export default function ProfilePage() {
                 </Card>
 
                 {/* Quick Stats */}
-                <Card className="bg-gray-800 border-gray-700 mt-6">
+                <Card className="bg-black border-gray-800 mt-6">
                   <CardHeader>
                     <CardTitle className="text-white text-lg">
                       Quick Stats
@@ -235,7 +237,7 @@ export default function ProfilePage() {
                   {stats.map((stat, index) => {
                     const Icon = stat.icon;
                     return (
-                      <Card key={index} className="bg-gray-800 border-gray-700">
+                      <Card key={index} className="bg-black border-gray-800">
                         <CardContent className="p-4 text-center">
                           <Icon
                             className={`w-8 h-8 mx-auto mb-2 ${stat.color}`}
@@ -256,7 +258,7 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Recent Activity */}
-                <Card className="bg-gray-800 border-gray-700">
+                <Card className="bg-black border-gray-800">
                   <CardHeader>
                     <CardTitle className="text-white">
                       Recent Activity
@@ -267,14 +269,14 @@ export default function ProfilePage() {
                       {recentActivity.map((activity) => (
                         <div
                           key={activity.id}
-                          className="flex items-center justify-between p-4 rounded-lg bg-gray-700/50 hover:bg-gray-700 transition-colors"
+                          className="flex items-center justify-between p-4 rounded-lg bg-gray-900/50 hover:bg-gray-700 transition-colors"
                         >
                           <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 flex items-center justify-center">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-400 to-teal-400 flex items-center justify-center">
                               {activity.type === "clip" ? (
-                                <Trophy className="w-5 h-5 text-white" />
+                                <Trophy className="w-5 h-5 text-black" />
                               ) : (
-                                <Target className="w-5 h-5 text-white" />
+                                <Target className="w-5 h-5 text-black" />
                               )}
                             </div>
                             <div>
@@ -310,7 +312,7 @@ export default function ProfilePage() {
                 </Card>
 
                 {/* Achievements */}
-                <Card className="bg-gray-800 border-gray-700">
+                <Card className="bg-black border-gray-800">
                   <CardHeader>
                     <CardTitle className="text-white">Achievements</CardTitle>
                   </CardHeader>
@@ -373,7 +375,7 @@ export default function ProfilePage() {
                 </Card>
 
                 {/* Social Links */}
-                <Card className="bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-cyan-400/10 border-pink-500/20">
+                <Card className="bg-gradient-to-r from-teal-400/10 via-emerald-400/10 to-cyan-400/10 border-teal-400/20">
                   <CardContent className="p-6">
                     <div className="text-center space-y-4">
                       <h3 className="text-xl font-bold text-white">
@@ -386,13 +388,13 @@ export default function ProfilePage() {
                       <div className="flex flex-col sm:flex-row gap-3 justify-center">
                         <Button
                           variant="outline"
-                          className="gap-2 border-pink-500 text-pink-500 hover:bg-pink-500/10"
+                          className="gap-2 border-teal-400 text-teal-400 hover:bg-teal-400/10"
                         >
                           <ExternalLink className="w-4 h-4" />
                           Share Profile
                         </Button>
                         <Button
-                          className="gap-2 bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-500 hover:to-purple-600 text-white"
+                          className="gap-2 bg-gradient-to-r from-cyan-400 to-teal-400 hover:from-cyan-300 hover:to-teal-300 text-black"
                           onClick={() => (window.location.href = "/chat")}
                         >
                           Join Community
