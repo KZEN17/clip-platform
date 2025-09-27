@@ -27,14 +27,14 @@ export const TopBar = ({ onSignInClick, onSignUpClick }: TopBarProps) => {
   };
 
   return (
-    <div className="fixed top-0 right-0 left-0 lg:left-64 z-20 bg-gray-900/80 backdrop-blur-sm border-b border-gray-800">
+    <div className="fixed top-0 right-0 left-0 lg:left-64 z-20 bg-black/80 backdrop-blur-sm border-b border-gray-900">
       <div className="flex items-center justify-end px-6 py-4">
         {user ? (
           <div className="flex items-center gap-4">
             {/* User Info */}
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center">
-                <span className="text-white font-medium text-sm">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-400 to-emerald-400 flex items-center justify-center shadow-teal">
+                <span className="text-black font-medium text-sm">
                   {user.name?.charAt(0).toUpperCase() ||
                     user.email.charAt(0).toUpperCase()}
                 </span>
@@ -83,7 +83,7 @@ export const TopBar = ({ onSignInClick, onSignUpClick }: TopBarProps) => {
 
             <Button
               onClick={onSignUpClick}
-              className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-medium"
+              className="bg-gradient-cta hover:bg-gradient-cta-hover text-white font-medium shadow-teal transition-all duration-300"
             >
               Sign Up
             </Button>

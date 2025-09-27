@@ -49,18 +49,18 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
   };
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen bg-black">
       <Sidebar />
 
       {/* Main Content */}
-      <div className="flex-1 lg:ml-64 flex flex-col">
+      <div className="flex-1 lg:ml-64 flex flex-col bg-black">
         <TopBar
           onSignInClick={handleSignInClick}
           onSignUpClick={handleSignUpClick}
         />
 
         {/* Content with top padding for the fixed TopBar */}
-        <main className="flex-1 overflow-auto pt-16">{children}</main>
+        <main className="flex-1 overflow-auto pt-16 bg-black">{children}</main>
       </div>
 
       <AuthModal

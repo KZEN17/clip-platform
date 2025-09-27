@@ -28,19 +28,19 @@ export const Sidebar = () => {
       name: "Home",
       href: "/",
       icon: Home,
-      color: "text-pink-500",
-      hoverColor: "hover:bg-pink-500/10 hover:text-pink-400",
-      activeColor: "text-pink-500 bg-pink-500/10",
-      borderColor: "bg-pink-500",
+      color: "text-teal-400",
+      hoverColor: "hover:bg-teal-400/10 hover:text-teal-300",
+      activeColor: "text-teal-400 bg-teal-400/10",
+      borderColor: "bg-teal-400",
     },
     {
       name: "Launch Calendar",
       href: "/calendar",
       icon: Calendar,
-      color: "text-purple-400",
-      hoverColor: "hover:bg-purple-400/10 hover:text-purple-300",
-      activeColor: "text-purple-400 bg-purple-400/10",
-      borderColor: "bg-purple-400",
+      color: "text-emerald-400",
+      hoverColor: "hover:bg-emerald-400/10 hover:text-emerald-300",
+      activeColor: "text-emerald-400 bg-emerald-400/10",
+      borderColor: "bg-emerald-400",
     },
     {
       name: "Rewards",
@@ -55,28 +55,28 @@ export const Sidebar = () => {
       name: "Raid Chat",
       href: "/chat",
       icon: MessageCircle,
+      color: "text-teal-500",
+      hoverColor: "hover:bg-teal-500/10 hover:text-teal-400",
+      activeColor: "text-teal-500 bg-teal-500/10",
+      borderColor: "bg-teal-500",
+    },
+    {
+      name: "Leaderboards",
+      href: "/leaderboards",
+      icon: TrendingUp,
       color: "text-green-400",
       hoverColor: "hover:bg-green-400/10 hover:text-green-300",
       activeColor: "text-green-400 bg-green-400/10",
       borderColor: "bg-green-400",
     },
     {
-      name: "Leaderboards",
-      href: "/leaderboards",
-      icon: TrendingUp,
-      color: "text-yellow-400",
-      hoverColor: "hover:bg-yellow-400/10 hover:text-yellow-300",
-      activeColor: "text-yellow-400 bg-yellow-400/10",
-      borderColor: "bg-yellow-400",
-    },
-    {
       name: "Guide",
       href: "/guide",
       icon: BookOpen,
-      color: "text-orange-400",
-      hoverColor: "hover:bg-orange-400/10 hover:text-orange-300",
-      activeColor: "text-orange-400 bg-orange-400/10",
-      borderColor: "bg-orange-400",
+      color: "text-blue-400",
+      hoverColor: "hover:bg-blue-400/10 hover:text-blue-300",
+      activeColor: "text-blue-400 bg-blue-400/10",
+      borderColor: "bg-blue-400",
     },
     {
       name: "Profile",
@@ -90,15 +90,13 @@ export const Sidebar = () => {
   ];
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full bg-gray-900 border-r border-gray-800">
+    <div className="flex flex-col h-full bg-black border-r border-gray-900">
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 border-b border-gray-800">
-        <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 flex items-center justify-center">
-          <span className="text-white font-bold text-sm">C</span>
+      <div className="flex items-center gap-3 p-4 border-b border-gray-900">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-teal-400 via-emerald-400 to-cyan-400 flex items-center justify-center shadow-teal">
+          <span className="text-black font-bold text-sm">C</span>
         </div>
-        <span className="font-bold text-lg bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
-          ClipStream
-        </span>
+        <span className="font-bold text-lg text-gradient-teal">ClipStream</span>
       </div>
 
       {/* Navigation */}
@@ -136,11 +134,11 @@ export const Sidebar = () => {
       </nav>
 
       {/* User Profile or Guest Message */}
-      <div className="p-4 border-t border-gray-800">
+      <div className="p-4 border-t border-gray-900">
         {user ? (
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center">
-              <span className="text-white font-medium text-sm">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-400 to-emerald-400 flex items-center justify-center shadow-teal">
+              <span className="text-black font-medium text-sm">
                 {user.name?.charAt(0).toUpperCase() ||
                   user.email.charAt(0).toUpperCase()}
               </span>
@@ -150,7 +148,7 @@ export const Sidebar = () => {
                 {user.name || user.email}
               </p>
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+                <div className="w-2 h-2 rounded-full bg-teal-400"></div>
                 <span className="text-xs text-gray-400">Online</span>
               </div>
             </div>
@@ -168,7 +166,7 @@ export const Sidebar = () => {
       <Button
         variant="ghost"
         size="icon"
-        className="fixed top-4 left-4 z-50 lg:hidden bg-gray-900/80 backdrop-blur-sm border border-gray-800"
+        className="fixed top-4 left-4 z-50 lg:hidden bg-black/80 backdrop-blur-sm border border-gray-900 hover:bg-teal-400/10"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
         {isMobileOpen ? (
@@ -197,7 +195,7 @@ export const Sidebar = () => {
       </div>
 
       {/* Desktop Sidebar */}
-      <div className="fixed left-0 top-0 z-30 h-full w-64 bg-gray-900 border-r border-gray-800 hidden lg:block">
+      <div className="fixed left-0 top-0 z-30 h-full w-64 bg-black border-r border-gray-900 hidden lg:block">
         <SidebarContent />
       </div>
     </>

@@ -46,11 +46,11 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dark" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-black text-foreground`}
       >
         <AuthProvider>
-          <div className="relative flex min-h-screen flex-col">
-            <main className="flex-1">{children}</main>
+          <div className="relative flex min-h-screen flex-col bg-black">
+            <main className="flex-1 bg-black">{children}</main>
           </div>
         </AuthProvider>
       </body>

@@ -8,21 +8,21 @@
   --card-foreground: 0 0% 3.9%;
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 3.9%;
-  --primary: 328 100% 54%; /* Pink #FF1B8D */
+  --primary: 178 84% 50%; /* Teal Green #14B8A6 */
   --primary-foreground: 0 0% 98%;
-  --secondary: 249 100% 69%; /* Purple #8B5FFF */
-  --secondary-foreground: 0 0% 98%;
-  --accent: 199 100% 50%; /* Cyan #00CFFF */
+  --secondary: 186 100% 94%; /* Light Teal #E6FFFA */
+  --secondary-foreground: 178 84% 20%;
+  --accent: 178 84% 60%; /* Brighter Teal #2DD4BF */
   --accent-foreground: 0 0% 98%;
-  --success: 142 100% 60%; /* Green #3CFF88 */
-  --success-foreground: 0 0% 3.9%;
-  --warning: 67 100% 50%; /* Yellow #E5FF00 */
+  --success: 142 76% 36%; /* Green #059669 */
+  --success-foreground: 0 0% 98%;
+  --warning: 38 92% 50%; /* Amber #F59E0B */
   --warning-foreground: 0 0% 3.9%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
   --border: 0 0% 89.8%;
   --input: 0 0% 89.8%;
-  --ring: 328 100% 54%;
+  --ring: 178 84% 50%;
   --muted: 220 9% 46%;
   --muted-foreground: 220 9% 65%;
   --radius: 0.75rem;
@@ -49,30 +49,30 @@
 
 [data-theme="dark"],
 :root {
-  /* Dark theme - your primary theme */
-  --background: 220 27% 4%; /* #0B0C0E */
-  --foreground: 220 9% 90%; /* #E6E7EA */
-  --card: 220 23% 8%; /* #141518 */
-  --card-foreground: 220 9% 90%;
-  --popover: 220 23% 8%;
-  --popover-foreground: 220 9% 90%;
-  --primary: 328 100% 54%; /* Pink #FF1B8D */
+  /* Dark theme - primary theme with black background and teal */
+  --background: 0 0% 0%; /* Pure Black #000000 */
+  --foreground: 0 0% 95%; /* Almost White #F2F2F2 */
+  --card: 0 0% 4%; /* Very Dark Gray #0A0A0A */
+  --card-foreground: 0 0% 95%;
+  --popover: 0 0% 4%;
+  --popover-foreground: 0 0% 95%;
+  --primary: 178 84% 50%; /* Teal Green #14B8A6 */
   --primary-foreground: 0 0% 98%;
-  --secondary: 249 100% 69%; /* Purple #8B5FFF */
+  --secondary: 178 84% 20%; /* Dark Teal #0F766E */
   --secondary-foreground: 0 0% 98%;
-  --accent: 199 100% 50%; /* Cyan #00CFFF */
+  --accent: 178 84% 60%; /* Bright Teal #2DD4BF */
   --accent-foreground: 0 0% 98%;
-  --success: 142 100% 60%; /* Green #3CFF88 */
-  --success-foreground: 0 0% 3.9%;
-  --warning: 67 100% 50%; /* Yellow #E5FF00 */
+  --success: 142 76% 36%; /* Green #059669 */
+  --success-foreground: 0 0% 98%;
+  --warning: 38 92% 50%; /* Amber #F59E0B */
   --warning-foreground: 0 0% 3.9%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 98%;
-  --border: 220 13% 13%; /* #1E2024 */
-  --input: 220 13% 13%;
-  --ring: 328 100% 54%;
-  --muted: 220 9% 46%; /* #9CA3AF */
-  --muted-foreground: 220 9% 65%;
+  --border: 0 0% 8%; /* Very Dark Gray Border #141414 */
+  --input: 0 0% 8%;
+  --ring: 178 84% 50%;
+  --muted: 0 0% 25%; /* Medium Gray #404040 */
+  --muted-foreground: 0 0% 65%;
 }
 
 * {
@@ -88,9 +88,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom gradient classes */
-.text-gradient-rainbow {
-  background: linear-gradient(135deg, #ff1b8d 0%, #8b5fff 50%, #00cfff 100%);
+/* Custom gradient classes for CTAs - inspired by reference images */
+.text-gradient-teal {
+  background: linear-gradient(135deg, #14b8a6 0%, #2dd4bf 50%, #67e8f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-cta {
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 50%, #10b981 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -100,19 +107,108 @@ body {
   background: linear-gradient(
     135deg,
     hsl(var(--primary)) 0%,
-    hsl(var(--secondary)) 100%
+    hsl(var(--accent)) 100%
   );
+}
+
+.bg-gradient-cta {
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 50%, #10b981 100%);
+}
+
+.bg-gradient-cta-hover {
+  background: linear-gradient(135deg, #0891b2 0%, #0f766e 50%, #047857 100%);
 }
 
 .bg-gradient-accent {
   background: linear-gradient(
     135deg,
-    hsl(var(--secondary)) 0%,
-    hsl(var(--accent)) 100%
+    hsl(var(--accent)) 0%,
+    hsl(var(--primary)) 100%
   );
 }
 
-/* Glow effects */
+/* Animated gradient text */
+.animate-gradient-text {
+  background: linear-gradient(
+    45deg,
+    #14b8a6,
+    #2dd4bf,
+    #67e8f9,
+    #14b8a6,
+    #10b981,
+    #059669
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease-in-out infinite;
+}
+
+/* Keyframe animations */
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  33% {
+    transform: translateY(-20px) translateX(10px);
+  }
+  66% {
+    transform: translateY(10px) translateX(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    filter: brightness(1) drop-shadow(0 0 10px rgba(20, 184, 166, 0.3));
+  }
+  50% {
+    filter: brightness(1.1) drop-shadow(0 0 20px rgba(20, 184, 166, 0.6));
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Animation classes */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(20, 184, 166, 0.4),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Glow effects with teal */
 .shadow-glow {
   box-shadow: var(--shadow-glow);
 }
@@ -121,12 +217,20 @@ body {
   box-shadow: var(--shadow-glow-strong);
 }
 
+.shadow-teal {
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+}
+
+.shadow-teal-strong {
+  box-shadow: 0 0 40px rgba(20, 184, 166, 0.5);
+}
+
 /* Button hover effects */
 .hover\:shadow-glow:hover {
   box-shadow: 0 0 30px hsl(var(--primary) / 0.4);
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling with teal */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -136,10 +240,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--border));
+  background: hsl(var(--primary));
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted));
+  background: hsl(var(--accent));
 }
