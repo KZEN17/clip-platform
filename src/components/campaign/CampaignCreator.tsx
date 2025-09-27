@@ -342,9 +342,9 @@ export const CampaignCreator = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-4xl bg-gray-800 border-gray-700 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <Card className="w-full max-w-4xl bg-black border-gray-800 shadow-2xl max-h-[90vh] overflow-y-auto">
         <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-gray-700">
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-teal-300 via-emerald-400 to-cyan-300 bg-clip-text text-transparent">
             Create New Campaign
           </CardTitle>
           <Button
@@ -423,7 +423,7 @@ export const CampaignCreator = ({
                     </Button>
                   </div>
                 ) : (
-                  <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-cyan-500/50 transition-colors">
+                  <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-teal-500/50 transition-colors">
                     <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                     <p className="text-sm text-gray-400 mb-2">
                       Upload campaign banner
@@ -440,7 +440,7 @@ export const CampaignCreator = ({
                     />
                     <Label
                       htmlFor="image-upload"
-                      className="cursor-pointer bg-cyan-500 text-white hover:bg-cyan-600 px-4 py-2 rounded-md text-sm font-medium inline-block"
+                      className="cursor-pointer bg-teal-500 text-white hover:bg-teal-600 px-4 py-2 rounded-md text-sm font-medium inline-block"
                     >
                       Choose File
                     </Label>
@@ -455,7 +455,7 @@ export const CampaignCreator = ({
                     htmlFor="prizePool"
                     className="text-white flex items-center gap-2"
                   >
-                    <Trophy className="w-4 h-4 text-yellow-500" />
+                    <Trophy className="w-4 h-4 text-teal-400" />
                     Prize Pool ($) *
                   </Label>
                   <Input
@@ -481,7 +481,7 @@ export const CampaignCreator = ({
                     htmlFor="payoutPer1kViews"
                     className="text-white flex items-center gap-2"
                   >
-                    <DollarSign className="w-4 h-4 text-green-400" />
+                    <DollarSign className="w-4 h-4 text-emerald-400" />
                     Payout per 1k Views ($) *
                   </Label>
                   <Input
@@ -509,7 +509,7 @@ export const CampaignCreator = ({
                   htmlFor="campaignEndDate"
                   className="text-white flex items-center gap-2"
                 >
-                  <Calendar className="w-4 h-4 text-blue-400" />
+                  <Calendar className="w-4 h-4 text-cyan-400" />
                   Campaign End Date *
                 </Label>
                 <Input
@@ -533,7 +533,7 @@ export const CampaignCreator = ({
                   htmlFor="googleDriveLink"
                   className="text-white flex items-center gap-2"
                 >
-                  <Globe className="w-4 h-4 text-blue-500" />
+                  <Globe className="w-4 h-4 text-teal-400" />
                   Google Drive Link *
                 </Label>
                 <Input
@@ -557,7 +557,7 @@ export const CampaignCreator = ({
               {/* Social Media Links */}
               <div className="space-y-4">
                 <Label className="text-white flex items-center gap-2">
-                  <Link className="w-4 h-4 text-purple-400" />
+                  <Link className="w-4 h-4 text-emerald-400" />
                   Social Media Links * (At least one required)
                 </Label>
 
@@ -579,7 +579,7 @@ export const CampaignCreator = ({
                     type="button"
                     onClick={addSocialMediaLink}
                     disabled={!socialMediaInput.trim()}
-                    className="bg-purple-500 hover:bg-purple-600 text-white disabled:opacity-50"
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white disabled:opacity-50"
                   >
                     <Plus className="w-4 h-4" />
                   </Button>
@@ -598,7 +598,7 @@ export const CampaignCreator = ({
                           className="flex items-center justify-between bg-gray-700 p-3 rounded-md border border-gray-600"
                         >
                           <div className="flex items-center gap-2 flex-1">
-                            <Globe className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                            <Globe className="w-4 h-4 text-teal-400 flex-shrink-0" />
                             <span className="text-white text-sm truncate">
                               {link}
                             </span>
@@ -621,7 +621,7 @@ export const CampaignCreator = ({
                 <div className="text-xs text-gray-500">
                   {formData.socialMediaLinks &&
                   formData.socialMediaLinks.length > 0 ? (
-                    <span className="text-green-400">
+                    <span className="text-emerald-400">
                       ✓ {formData.socialMediaLinks.length} social media link(s)
                       added
                     </span>
@@ -810,7 +810,7 @@ export const CampaignCreator = ({
                   }
                   className={
                     formData.autoApproveSubmissions
-                      ? "bg-green-500 hover:bg-green-600"
+                      ? "bg-emerald-500 hover:bg-emerald-600"
                       : "border-gray-600 text-gray-300"
                   }
                 >
@@ -833,7 +833,7 @@ export const CampaignCreator = ({
               <Button
                 type="submit"
                 disabled={loading || !isFormValid()}
-                className="flex-1 bg-gradient-to-r from-cyan-400 to-purple-500 hover:from-cyan-500 hover:to-purple-600 text-white"
+                className="flex-1 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black"
               >
                 {loading ? "Creating..." : "Create Campaign"}
               </Button>

@@ -16,11 +16,11 @@ export const RewardsHub = ({ campaigns }: RewardsHubProps) => {
   );
 
   return (
-    <Card className="bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-cyan-400/10 border-pink-500/20">
+    <Card className="bg-gradient-to-r from-teal-400/10 via-emerald-400/10 to-cyan-400/10 border-teal-400/30">
       <CardContent className="p-8">
         <div className="text-center space-y-6">
           <div className="flex items-center justify-center space-x-2">
-            <Trophy className="w-8 h-8 text-pink-500" />
+            <Trophy className="w-8 h-8 text-teal-400" />
             <h2 className="text-3xl font-bold text-white">CLIP Rewards Hub</h2>
           </div>
           <p className="text-lg text-gray-400 max-w-3xl mx-auto">
@@ -30,13 +30,13 @@ export const RewardsHub = ({ campaigns }: RewardsHubProps) => {
           </p>
           <div className="grid md:grid-cols-3 gap-4">
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-pink-500">
+              <div className="text-2xl font-bold text-teal-400">
                 ${totalRewards.toLocaleString()}
               </div>
               <div className="text-sm text-gray-400">Total Rewards Pool</div>
             </div>
             <div className="text-center space-y-2">
-              <div className="text-2xl font-bold text-purple-400">
+              <div className="text-2xl font-bold text-emerald-400">
                 {totalParticipants}+
               </div>
               <div className="text-sm text-gray-400">Active Creators</div>

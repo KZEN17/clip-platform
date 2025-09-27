@@ -251,9 +251,9 @@ export const LaunchCreator = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <Card className="w-full max-w-3xl bg-gray-800 border-gray-700 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <Card className="w-full max-w-3xl bg-black border-gray-800 shadow-2xl max-h-[90vh] overflow-y-auto">
         <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-gray-700">
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-teal-300 via-emerald-400 to-cyan-300 bg-clip-text text-transparent">
             Create Launch Event
           </CardTitle>
           <Button
@@ -354,7 +354,7 @@ export const LaunchCreator = ({
                     </Button>
                   </div>
                 ) : (
-                  <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-pink-500/50 transition-colors">
+                  <div className="border-2 border-dashed border-gray-600 rounded-lg p-8 text-center hover:border-teal-500/50 transition-colors">
                     <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
                     <p className="text-sm text-gray-400 mb-2">
                       Upload your token logo
@@ -371,7 +371,7 @@ export const LaunchCreator = ({
                     />
                     <Label
                       htmlFor="logo-upload"
-                      className="cursor-pointer bg-pink-500 text-white hover:bg-pink-600 px-4 py-2 rounded-md text-sm font-medium inline-block"
+                      className="cursor-pointer bg-teal-500 text-white hover:bg-teal-600 px-4 py-2 rounded-md text-sm font-medium inline-block"
                     >
                       Choose File
                     </Label>
@@ -628,7 +628,7 @@ export const LaunchCreator = ({
                     htmlFor="gameCategory"
                     className="text-white flex items-center gap-2"
                   >
-                    <Gamepad2 className="w-4 h-4 text-blue-400" />
+                    <Gamepad2 className="w-4 h-4 text-teal-400" />
                     Game Category
                   </Label>
                   <Input
@@ -719,7 +719,7 @@ export const LaunchCreator = ({
               <Button
                 type="submit"
                 disabled={loading}
-                className="flex-1 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white"
+                className="flex-1 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black"
               >
                 {loading ? "Creating..." : "Create Launch Event"}
               </Button>
