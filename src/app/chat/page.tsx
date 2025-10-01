@@ -43,7 +43,7 @@ const mockRaids = [
     // USDC Bounty
     usdcBounty: 1000, // $1000 USDC total
     bountyWallet: "7xKXtg2C...H6vJ", // Shortened wallet address
-    bountyDistribution: "milestone-based",
+    bountyDistribution: "milestone-based" as const,
     bountyPerAction: 5, // $5 USDC per valid action
     minActionsForBounty: 1,
   },
@@ -68,7 +68,7 @@ const mockRaids = [
     // USDC Bounty
     usdcBounty: 500,
     bountyWallet: "9yMNrf3D...K8pL",
-    bountyDistribution: "split-equally",
+    bountyDistribution: "split-equally" as const,
     minActionsForBounty: 3,
   },
   {
@@ -92,11 +92,10 @@ const mockRaids = [
     // USDC Bounty
     usdcBounty: 2000,
     bountyWallet: "3wQRst5F...M9nP",
-    bountyDistribution: "winner-take-all",
+    bountyDistribution: "winner-take-all" as const,
     minActionsForBounty: 5,
   },
 ];
-
 // Simple Progress component
 const Progress = ({
   value,
