@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Trophy,
   User,
+  Users,
   X,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -32,6 +33,15 @@ export const Sidebar = () => {
       hoverColor: "hover:bg-teal-400/10 hover:text-teal-300",
       activeColor: "text-teal-400 bg-teal-400/10",
       borderColor: "bg-teal-400",
+    },
+    {
+      name: "Explorer",
+      href: "/explore",
+      icon: TrendingUp,
+      color: "text-purple-400",
+      hoverColor: "hover:bg-purple-400/10 hover:text-purple-300",
+      activeColor: "text-purple-400 bg-purple-400/10",
+      borderColor: "bg-purple-400",
     },
     {
       name: "Launch Calendar",
@@ -61,6 +71,16 @@ export const Sidebar = () => {
       borderColor: "bg-teal-500",
     },
     {
+      name: "FRENWORK",
+      href: "/frenwork",
+      icon: Users,
+      color: "text-yellow-400",
+      hoverColor: "hover:bg-yellow-400/10 hover:text-yellow-300",
+      activeColor: "text-yellow-400 bg-yellow-400/10",
+      borderColor: "bg-yellow-400",
+      badge: "Soon",
+    },
+    {
       name: "Leaderboards",
       href: "/leaderboards",
       icon: TrendingUp,
@@ -88,7 +108,6 @@ export const Sidebar = () => {
       borderColor: "bg-indigo-400",
     },
   ];
-
   const SidebarContent = () => (
     <div className="flex flex-col h-full bg-black border-r border-gray-900">
       {/* Header */}

@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-// Mock raid data
 const mockRaids = [
   {
     id: "fake-1",
@@ -41,6 +40,12 @@ const mockRaids = [
     leader_id: "fake-leader-1",
     scheduled_time: new Date().toISOString(),
     twitch_stream_url: "https://twitch.tv/cryptoking",
+    // USDC Bounty
+    usdcBounty: 1000, // $1000 USDC total
+    bountyWallet: "7xKXtg2C...H6vJ", // Shortened wallet address
+    bountyDistribution: "milestone-based",
+    bountyPerAction: 5, // $5 USDC per valid action
+    minActionsForBounty: 1,
   },
   {
     id: "fake-2",
@@ -60,6 +65,11 @@ const mockRaids = [
     leader_id: "fake-leader-2",
     scheduled_time: new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString(),
     twitch_stream_url: "https://youtube.com/watch?v=holidaystream",
+    // USDC Bounty
+    usdcBounty: 500,
+    bountyWallet: "9yMNrf3D...K8pL",
+    bountyDistribution: "split-equally",
+    minActionsForBounty: 3,
   },
   {
     id: "fake-3",
@@ -79,6 +89,11 @@ const mockRaids = [
     leader_id: "fake-leader-3",
     scheduled_time: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
     twitch_stream_url: "https://twitch.tv/newyeartoken",
+    // USDC Bounty
+    usdcBounty: 2000,
+    bountyWallet: "3wQRst5F...M9nP",
+    bountyDistribution: "winner-take-all",
+    minActionsForBounty: 5,
   },
 ];
 
@@ -103,6 +118,7 @@ const Progress = ({
 );
 
 // Raid Card Component
+
 type Raid = {
   id: string;
   title: string;
@@ -120,6 +136,13 @@ type Raid = {
   leader_id: string;
   scheduled_time: string;
   twitch_stream_url: string;
+
+  // NEW: USDC Bounty System
+  usdcBounty?: number; // Total USDC bounty pool
+  bountyWallet?: string; // Wallet address for bounty
+  bountyDistribution?: "winner-take-all" | "split-equally" | "milestone-based"; // How bounty is distributed
+  bountyPerAction?: number; // USDC per action (donation/sub/token buy)
+  minActionsForBounty?: number; // Minimum actions to qualify
 };
 
 type RaidCardProps = {
@@ -269,7 +292,40 @@ const RaidCard = ({ raid, onJoin }: RaidCardProps) => {
             </div>
           </div>
         )}
+        {raid.usdcBounty && (
+          <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-lg p-4 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-gray-400">USDC Bounty Pool</span>
+              <Badge className="bg-green-500 text-white font-bold">
+                ${raid.usdcBounty} USDC
+              </Badge>
+            </div>
 
+            {raid.bountyPerAction && (
+              <div className="text-xs text-gray-400">
+                💰 ${raid.bountyPerAction} USDC per qualifying action
+              </div>
+            )}
+
+            {raid.bountyDistribution && (
+              <div className="text-xs text-gray-400">
+                📊 Distribution: {raid.bountyDistribution.replace(/-/g, " ")}
+              </div>
+            )}
+
+            {raid.minActionsForBounty && (
+              <div className="text-xs text-gray-400">
+                ✅ Min actions to qualify: {raid.minActionsForBounty}
+              </div>
+            )}
+
+            {raid.bountyWallet && (
+              <div className="text-xs text-gray-500 font-mono">
+                Wallet: {raid.bountyWallet}
+              </div>
+            )}
+          </div>
+        )}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 text-sm text-gray-400">
             {raid.scheduled_time && !isLive && (

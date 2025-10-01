@@ -210,7 +210,7 @@ export default function LaunchCalendarPage() {
               </div>
 
               {eventsForSelectedDate.length > 0 ? (
-                <div className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {eventsForSelectedDate.map((event) => (
                     <LaunchEventCard key={event.$id} event={event} />
                   ))}

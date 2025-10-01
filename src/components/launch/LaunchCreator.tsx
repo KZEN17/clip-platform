@@ -425,6 +425,76 @@ export const LaunchCreator = ({
                 </div>
               </div>
             </div>
+            <div className="space-y-4 p-4 bg-gray-700/50 rounded-lg border border-gray-600">
+              <div className="flex items-start justify-between">
+                <div className="space-y-1 flex-1">
+                  <Label className="text-white font-semibold flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-cyan-400" />
+                    Show in Launch Calendar
+                  </Label>
+                  <p className="text-sm text-gray-400">
+                    Control visibility in the public launch calendar
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  variant={formData.showInListing ? "default" : "outline"}
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      showInListing: !prev.showInListing,
+                      isBlurred: !prev.showInListing ? false : prev.isBlurred,
+                    }))
+                  }
+                  className={
+                    formData.showInListing
+                      ? "bg-teal-400 hover:bg-teal-300 text-black"
+                      : "border-gray-600 text-gray-300"
+                  }
+                >
+                  {formData.showInListing ? "Visible" : "Hidden"}
+                </Button>
+              </div>
+
+              {/* Blur for HYPE option - only shown if showInListing is true */}
+              {formData.showInListing && (
+                <div className="flex items-center justify-between p-3 bg-gray-800 rounded border border-gray-600">
+                  <div className="space-y-1">
+                    <Label className="text-white text-sm">
+                      Show Blurred (Create HYPE! 🔥)
+                    </Label>
+                    <p className="text-xs text-gray-400">
+                      Display your launch as blurred/teaser to build
+                      anticipation
+                    </p>
+                  </div>
+                  <input
+                    type="checkbox"
+                    checked={formData.isBlurred || false}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        isBlurred: e.target.checked,
+                      }))
+                    }
+                    className="w-5 h-5 rounded border-gray-600 bg-gray-700 text-teal-400 focus:ring-teal-400"
+                  />
+                </div>
+              )}
+
+              <div className="text-xs text-gray-500 space-y-1">
+                <p>
+                  ℹ️ <strong>Hidden:</strong> Launch won't appear in calendar
+                </p>
+                <p>
+                  ℹ️ <strong>Visible:</strong> Full details shown to everyone
+                </p>
+                <p>
+                  ℹ️ <strong>Blurred:</strong> Appears in calendar but details
+                  hidden (great for HYPE!)
+                </p>
+              </div>
+            </div>
 
             {/* Optional Fields Section */}
             <div className="space-y-6">
