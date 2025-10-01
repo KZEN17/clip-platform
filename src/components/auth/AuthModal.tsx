@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
+import { account } from "@/lib/appwrite";
 import { cn } from "@/lib/utils";
 import { Lock, Mail, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Label } from "../ui/label";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -30,7 +32,9 @@ export const AuthModal = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showVerificationMessage, setShowVerificationMessage] = useState(false);
-
+  const [userType, setUserType] = useState<"clipper" | "streamer" | "agency">(
+    "clipper"
+  );
   const { login, register } = useAuth();
 
   // Update mode when modal opens with different initial mode
@@ -82,6 +86,9 @@ export const AuthModal = ({
         }
 
         await register(email, password, name);
+        await account.updatePrefs({
+          userType: userType,
+        });
         setShowVerificationMessage(true);
       }
     } catch (error: unknown) {
@@ -338,6 +345,57 @@ export const AuthModal = ({
               </div>
             )}
 
+            {!isSignIn && (
+              <div className="space-y-2">
+                <Label className="text-white">I am a *</Label>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setUserType("clipper")}
+                    className={cn(
+                      "p-3 rounded-lg border-2 transition-all text-center",
+                      userType === "clipper"
+                        ? "border-pink-500 bg-pink-500/10 text-pink-400"
+                        : "border-gray-600 bg-gray-700 text-gray-400 hover:border-gray-500"
+                    )}
+                  >
+                    <div className="text-2xl mb-1">✂️</div>
+                    <div className="text-xs font-medium">Clipper</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setUserType("streamer")}
+                    className={cn(
+                      "p-3 rounded-lg border-2 transition-all text-center",
+                      userType === "streamer"
+                        ? "border-purple-500 bg-purple-500/10 text-purple-400"
+                        : "border-gray-600 bg-gray-700 text-gray-400 hover:border-gray-500"
+                    )}
+                  >
+                    <div className="text-2xl mb-1">🎮</div>
+                    <div className="text-xs font-medium">Streamer</div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setUserType("agency")}
+                    className={cn(
+                      "p-3 rounded-lg border-2 transition-all text-center",
+                      userType === "agency"
+                        ? "border-cyan-500 bg-cyan-500/10 text-cyan-400"
+                        : "border-gray-600 bg-gray-700 text-gray-400 hover:border-gray-500"
+                    )}
+                  >
+                    <div className="text-2xl mb-1">🏢</div>
+                    <div className="text-xs font-medium">Agency</div>
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500">
+                  You can change this later in your profile settings
+                </p>
+              </div>
+            )}
             <Button
               type="submit"
               className="w-full h-12 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-medium"

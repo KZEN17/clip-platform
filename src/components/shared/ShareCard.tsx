@@ -10,7 +10,7 @@ import { useRef } from "react";
 
 interface ShareCardProps {
   type: "launch" | "campaign" | "raid";
-  data: LaunchEvent | RewardsCampaign | any;
+  data: LaunchEvent | RewardsCampaign;
 }
 
 export const ShareCard = ({ type, data }: ShareCardProps) => {

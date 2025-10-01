@@ -20,6 +20,9 @@ export interface LaunchEvent {
   instagramUsername?: string;
   discordServer?: string; // Discord server invite link
   gameCategory?: string;
+  showInListing?: boolean; // Show blurred in calendar for HYPE
+  socialMediaSubmitted?: boolean; // Track if socials added
+  isBlurred?: boolean; // Currently blurred for hype
 
   // Status and metadata
   status: "scheduled" | "live" | "completed" | "cancelled";
