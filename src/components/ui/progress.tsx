@@ -58,17 +58,17 @@ const Progress = React.forwardRef<
       <ProgressPrimitive.Root
         ref={ref}
         className={cn(
-          "relative h-4 w-full overflow-hidden rounded-full bg-secondary/50",
+          "relative h-4 w-full overflow-hidden rounded-full bg-gray-700",
           className
         )}
         {...props}
       >
         {/* Background glow effect when animated */}
-        {showGlow && isAnimating && (
+        {showGlow && isAnimating && progressPercentage > 0 && (
           <div
             className="absolute inset-0 rounded-full animate-pulse"
             style={{
-              background: `radial-gradient(ellipse at center, hsl(var(--primary) / 0.3) 0%, transparent 70%)`,
+              background: `radial-gradient(ellipse at center, rgba(236, 72, 153, 0.4) 0%, transparent 70%)`,
             }}
           />
         )}
@@ -76,8 +76,13 @@ const Progress = React.forwardRef<
         {/* Main progress indicator */}
         <ProgressPrimitive.Indicator
           className={cn(
-            "h-full flex-1 bg-gradient-to-r from-primary via-primary to-primary-glow rounded-full transition-all duration-300 ease-out relative overflow-hidden",
-            isAnimating && "shadow-[0_0_20px_hsl(var(--primary)/0.5)]"
+            "h-full flex-1 rounded-full transition-all duration-300 ease-out relative overflow-hidden",
+            progressPercentage > 0
+              ? "bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-400"
+              : "bg-gray-600",
+            isAnimating &&
+              progressPercentage > 0 &&
+              "shadow-[0_0_25px_rgba(236,72,153,0.6)]"
           )}
           style={{
             width: `${progressPercentage}%`,
@@ -85,9 +90,9 @@ const Progress = React.forwardRef<
           }}
         >
           {/* Animated shine effect */}
-          {isAnimating && (
+          {isAnimating && progressPercentage > 0 && (
             <div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-[slide-in-right_2s_ease-out_infinite]"
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
               style={{
                 transform: "translateX(-100%)",
                 animation: "slide-right 2s ease-out infinite",
@@ -96,7 +101,9 @@ const Progress = React.forwardRef<
           )}
 
           {/* Subtle inner shadow for depth */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent rounded-full" />
+          {progressPercentage > 0 && (
+            <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent rounded-full" />
+          )}
         </ProgressPrimitive.Indicator>
       </ProgressPrimitive.Root>
     );
